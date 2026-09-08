@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="bn">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <title>ভূমি উন্নয়ন কর - রসিদ যাচাই ও এডিটর</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  <style>
+  <head>
+    <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+        <title>ভূমি উন্নয়ন কর - রসিদ যাচাই ও এডিটর</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+        <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'SolaimanLipi', Arial, sans-serif; }
     body { background-color: #ffffff; min-height: 100vh; overflow-x: hidden; }
 
@@ -95,194 +95,202 @@
       .no-print-column { display: none !important; }
     }
   </style>
-</head>
-<body>
-
-  <div class="action-toolbar no-print">
-    <button class="btn btn-lock" id="lockBtn" onclick="toggleEditMode()">🔒 এডিট আনলক</button>
-    <button class="btn" onclick="window.print()">🖨️ প্রিন্ট (A4)</button>
-    <button class="btn" onclick="downloadPDF()">📥 PDF ডাউনলোড (A4)</button>
-    <button class="btn" style="background:#17a2b8;" onclick="downloadJPG()">🖼️ JPG ডাউনলোড</button>
-    <button class="btn btn-add admin-only" onclick="addOwnerRow()" disabled>+ নতুন মালিক</button>
-    <button class="btn btn-add admin-only" onclick="addLandRow()" disabled>+ নতুন দাগ</button>
-  </div>
-
-  <div class="top-banner" id="live-date"></div>
-
-  <div class="navbar">
-    <div class="brand-section">
-      <div class="logo-box">৳</div>
-      <div class="brand-title">ভূমি উন্নয়ন কর</div>
-    </div>
-    <div class="nav-controls">
-      <div class="lang-toggle">
-        <span class="lang-btn bn">বাং</span>
-        <span class="lang-btn en">EN</span>
-      </div>
-      <button class="login-btn">লগইন <span>▼</span></button>
-    </div>
-  </div>
-
-  <div class="menu-bar">
-    <div class="hamburger-icon"><span></span><span></span><span></span></div>
-  </div>
-
-  <div class="receipt-wrapper">
-    <div class="receipt-paper" id="receipt">
-      
-      <div class="top-header">
-        <div>
-          <span class="edit-field" contenteditable="false" id="formNo">বাংলাদেশ ফরম নং ১০৭৭</span><br>
-          <span class="edit-field" contenteditable="false" id="formSub">(সংশোধিত)</span>
+      </head>
+      <body>
+        <div class="action-toolbar no-print">
+          <button class="btn btn-lock" id="lockBtn" onclick="toggleEditMode()">🔒 এডিট আনলক</button>
+          <button class="btn" onclick="window.print()">🖨️ প্রিন্ট (A4)</button>
+          <button class="btn" onclick="downloadPDF()">📥 PDF ডাউনলোড (A4)</button>
+          <button class="btn" style="background:#17a2b8;" onclick="downloadJPG()">🖼️ JPG ডাউনলোড</button>
+          <button class="btn btn-add admin-only" onclick="addOwnerRow()" disabled>+ নতুন মালিক</button>
+          <button class="btn btn-add admin-only" onclick="addLandRow()" disabled>+ নতুন দাগ</button>
         </div>
-        <div class="header-center">
-          <div style="font-size: 16px; font-weight: bold;" class="edit-field" contenteditable="false" id="receiptTitle">ভূমি উন্নয়ন কর পরিশোধ রসিদ</div>
-          <div style="font-size: 11px;" class="edit-field" contenteditable="false">(অনুচ্ছেদ ৩৯২ দ্রষ্টব্য)</div>
+        <div class="top-banner" id="live-date">
         </div>
-        <div class="header-right">
-          <span class="edit-field" contenteditable="false">(পরিশিষ্ট: ৩৮)</span><br>
-          <strong>ক্রমিক নং</strong> <span class="edit-field" contenteditable="false" id="serialNo">৮৯৬৭২৩০২১৫৯৮</span>
-        </div>
-      </div>
-
-      <div style="margin-top: 12px;">
-        <strong>সিটি কর্পোরেশন/ পৌর/ ইউনিয়ন ভূমি অফিসের নাম:</strong> 
-        <span class="dot-line edit-field" style="width: 50%;" contenteditable="false" id="officeName">নকলা সদর ইউনিয়ন ভূমি অফিস</span>
-      </div>
-      
-      <div style="margin-top: 8px; display: flex; justify-content: space-between;">
-        <div><strong>মৌজার নাম ও জে. এল. নং:</strong> <span class="dot-line edit-field" contenteditable="false" id="mouzaName">গৌড়দ্বার-৩৪</span></div>
-        <div><strong>উপজেলা/থানা:</strong> <span class="dot-line edit-field" contenteditable="false" id="upazilaName">নকলা</span></div>
-        <div><strong>জেলা:</strong> <span class="dot-line edit-field" contenteditable="false" id="districtName">শেরপুর</span></div>
-      </div>
-
-      <div style="margin-top: 8px;">
-        <strong>২ নং রেজিস্টার অনুযায়ী হোল্ডিং নম্বর:</strong> <span class="dot-line edit-field" style="width: 140px;" contenteditable="false" id="holdingNo">৪০৬</span>
-      </div>
-
-      <div style="margin-top: 8px;">
-        <strong>খতিয়ান নং:</strong> <span class="dot-line edit-field" style="width: 140px;" contenteditable="false" id="khatianNo">৪০৭</span>
-      </div>
-
-      <div class="full-dotted-line"></div>
-
-      <div class="section-title">মালিকের বিবরণ</div>
-      <table class="dotted-table" id="ownerTable">
-        <thead>
-          <tr>
-            <th width="10%">ক্রমঃ</th>
-            <th width="65%">মালিকের নাম</th>
-            <th width="20%">মালিকের অংশ</th>
-            <th width="5%" class="no-print no-print-column">মুছুন</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="edit-field" contenteditable="false">১</td>
-            <td class="edit-field" contenteditable="false">মহসিন আলম রাকিব</td>
-            <td class="edit-field" contenteditable="false">১</td>
-            <td class="no-print no-print-column"><button class="btn btn-danger admin-only" style="padding: 0px 4px;" onclick="deleteRow(this)" disabled>X</button></td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="section-title">জমির বিবরণ</div>
-      <table class="dotted-table" id="landTable">
-        <thead>
-          <tr>
-            <th width="8%">ক্রমঃ</th>
-            <th width="12%">দাগ নং</th>
-            <th width="18%">জমির শ্রেণি</th>
-            <th width="12%">জমির পরিমাণ (শতাংশ)</th>
-            <th width="8%">ক্রমঃ</th>
-            <th width="12%">দাগ নং</th>
-            <th width="18%">জমির শ্রেণি</th>
-            <th width="10%">জমির পরিমাণ (শতাংশ)</th>
-            <th width="4%" class="no-print no-print-column">মুছুন</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="edit-field" contenteditable="false">১</td>
-            <td class="edit-field" contenteditable="false">৪২০</td>
-            <td class="edit-field" contenteditable="false">কান্দা(আবাসিক)</td>
-            <td class="edit-field land-amount" contenteditable="false" oninput="calculateTotalLand()">৫০০</td>
-            <td class="edit-field" contenteditable="false">২</td>
-            <td class="edit-field" contenteditable="false">৪২০</td>
-            <td class="edit-field" contenteditable="false">বাড়ী(আবাসিক)</td>
-            <td class="edit-field land-amount" contenteditable="false" oninput="calculateTotalLand()">৫০০</td>
-            <td class="no-print no-print-column"><button class="btn btn-danger admin-only" style="padding: 0px 4px;" onclick="deleteRow(this)" disabled>X</button></td>
-          </tr>
-        </tbody>
-      </table>
-      
-      <div style="border: 1px dotted #000; border-top: none; padding: 5px 10px; display: flex; justify-content: space-between; font-weight: bold; font-size: 12px;">
-        <span style="margin-left: 180px;">সর্বমোট জমি (শতাংশ)</span>
-        <span style="margin-right: 330px;" class="edit-field" contenteditable="false" id="totalLand">৫০০</span>
-      </div>
-
-      <div class="full-dotted-line" style="margin-top: 15px;"></div>
-
-      <div class="section-title">আদায়ের বিবরণ</div>
-      <table class="solid-table">
-        <thead>
-          <tr>
-            <th>তিন বৎসরের ঊর্ধ্বের বকেয়া</th>
-            <th>গত তিন বৎসরের বকেয়া</th>
-            <th>বকেয়ার জরিমানা ও ক্ষতিপূরণ</th>
-            <th>হাল দাবি</th>
-            <th>মোট দাবি</th>
-            <th>মোট আদায়</th>
-            <th>মোট বকেয়া</th>
-            <th>মন্তব্য</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="edit-field" contenteditable="false" id="pay1">০</td>
-            <td class="edit-field" contenteditable="false" id="pay2">০</td>
-            <td class="edit-field" contenteditable="false" id="pay3">০</td>
-            <td class="edit-field" contenteditable="false" id="pay4">৯,৫০০</td>
-            <td class="edit-field" contenteditable="false" id="pay5">৯,৫০০</td>
-            <td class="edit-field" contenteditable="false" id="pay6">৯,৫০০</td>
-            <td class="edit-field" contenteditable="false" id="pay7">০</td>
-            <td class="edit-field" contenteditable="false" id="pay8"></td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div style="margin-top: 10px; font-weight: bold;">
-        সর্বমোট (কথায়): <span class="edit-field" contenteditable="false" id="totalWords">সাত হাজার পাঁচশত টাকা মাত্র।</span>
-      </div>
-
-      <div class="full-dotted-line"></div>
-
-      <div class="footer-section">
-        <div class="footer-left">
-          <div><strong>নোট:</strong> সর্বশেষ কর পরিশোধের সাল - <span class="edit-field" contenteditable="false" id="taxYear">2026-2027 (অর্থবছর)</span></div>
-          <div>চালান নং : <span class="edit-field" contenteditable="false" id="chalanNo">৯৮৭৬৫৫৭২৫১</span></div>
-          <div style="margin-top: 6px;">
-            তারিখ : <span class="dot-line edit-field" contenteditable="false" id="taxDate1">১৯ ভাদ্র ১৪৩৩</span><br>
-            <span style="margin-left: 42px;" class="dot-line edit-field" contenteditable="false" id="taxDate2">৩ সেপ্টেম্বর, ২০২৬</span>
+        <div class="navbar">
+          <div class="brand-section">
+            <div class="logo-box">৳</div>
+            <div class="brand-title">ভূমি উন্নয়ন কর</div>
           </div>
-        </div>
-
-        <div class="footer-center">
-          <div id="qrcode"></div>
-        </div>
-
-        <div class="footer-right">
-          <span class="edit-field" contenteditable="false">এই দাখিলা ইলেক্ট্রনিকভাবে তৈরি করা হয়েছে,</span><br>
-          <span class="edit-field" contenteditable="false">কোন স্বাক্ষর প্রয়োজন নেই।</span>
+          <div class="nav-controls">
+            <div class="lang-toggle">
+              <span class="lang-btn bn">বাং</span>
+              <span class="lang-btn en">EN</span>
+            </div>
+            <button class="login-btn">লগইন <span>▼</span>
+          </button>
         </div>
       </div>
-
-    </div>
-  </div>
-
-  <div class="footer-gradient"></div>
-
-  <script>
+      <div class="menu-bar">
+        <div class="hamburger-icon">
+          <span>
+          </span>
+          <span>
+          </span>
+          <span>
+          </span>
+        </div>
+      </div>
+      <div class="receipt-wrapper">
+        <div class="receipt-paper" id="receipt">
+          <div class="top-header">
+            <div>
+              <span class="edit-field" contenteditable="false" id="formNo">বাংলাদেশ ফরম নং ১০৭৭</span>
+              <br>
+                <span class="edit-field" contenteditable="false" id="formSub">(সংশোধিত)</span>
+              </div>
+              <div class="header-center">
+                <div style="font-size: 16px; font-weight: bold;" class="edit-field" contenteditable="false" id="receiptTitle">ভূমি উন্নয়ন কর পরিশোধ রসিদ</div>
+                <div style="font-size: 11px;" class="edit-field" contenteditable="false">(অনুচ্ছেদ ৩৯২ দ্রষ্টব্য)</div>
+              </div>
+              <div class="header-right">
+                <span class="edit-field" contenteditable="false">(পরিশিষ্ট: ৩৮)</span>
+                <br>
+                  <strong>ক্রমিক নং</strong> <span class="edit-field" contenteditable="false" id="serialNo">৮৯৬৭২৩০২১৫৯৮</span>
+                </div>
+              </div>
+              <div style="margin-top: 12px;">
+                <strong>সিটি কর্পোরেশন/ পৌর/ ইউনিয়ন ভূমি অফিসের নাম:</strong>
+                <span class="dot-line edit-field" style="width: 50%;" contenteditable="false" id="officeName">নকলা সদর ইউনিয়ন ভূমি অফিস</span>
+              </div>
+              <div style="margin-top: 8px; display: flex; justify-content: space-between;">
+                <div>
+                  <strong>মৌজার নাম ও জে. এল. নং:</strong> <span class="dot-line edit-field" contenteditable="false" id="mouzaName">গৌড়দ্বার-৩৪</span>
+                </div>
+                <div>
+                  <strong>উপজেলা/থানা:</strong> <span class="dot-line edit-field" contenteditable="false" id="upazilaName">নকলা</span>
+                </div>
+                <div>
+                  <strong>জেলা:</strong> <span class="dot-line edit-field" contenteditable="false" id="districtName">শেরপুর</span>
+                </div>
+              </div>
+              <div style="margin-top: 8px;">
+                <strong>২ নং রেজিস্টার অনুযায়ী হোল্ডিং নম্বর:</strong> <span class="dot-line edit-field" style="width: 140px;" contenteditable="false" id="holdingNo">৪০৬</span>
+              </div>
+              <div style="margin-top: 8px;">
+                <strong>খতিয়ান নং:</strong> <span class="dot-line edit-field" style="width: 140px;" contenteditable="false" id="khatianNo">৪০৭</span>
+              </div>
+              <div class="full-dotted-line">
+              </div>
+              <div class="section-title">মালিকের বিবরণ</div>
+              <table class="dotted-table" id="ownerTable">
+                <thead>
+                  <tr>
+                    <th width="10%">ক্রমঃ</th>
+                    <th width="65%">মালিকের নাম</th>
+                    <th width="20%">মালিকের অংশ</th>
+                    <th width="5%" class="no-print no-print-column">মুছুন</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="edit-field" contenteditable="false">১</td>
+                    <td class="edit-field" contenteditable="false">মহসিন আলম রাকিব</td>
+                    <td class="edit-field" contenteditable="false">১</td>
+                    <td class="no-print no-print-column">
+                      <button class="btn btn-danger admin-only" style="padding: 0px 4px;" onclick="deleteRow(this)" disabled>X</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="section-title">জমির বিবরণ</div>
+              <table class="dotted-table" id="landTable">
+                <thead>
+                  <tr>
+                    <th width="8%">ক্রমঃ</th>
+                    <th width="12%">দাগ নং</th>
+                    <th width="18%">জমির শ্রেণি</th>
+                    <th width="12%">জমির পরিমাণ (শতাংশ)</th>
+                    <th width="8%">ক্রমঃ</th>
+                    <th width="12%">দাগ নং</th>
+                    <th width="18%">জমির শ্রেণি</th>
+                    <th width="10%">জমির পরিমাণ (শতাংশ)</th>
+                    <th width="4%" class="no-print no-print-column">মুছুন</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="edit-field" contenteditable="false">১</td>
+                    <td class="edit-field" contenteditable="false">৪২০</td>
+                    <td class="edit-field" contenteditable="false">কান্দা(আবাসিক)</td>
+                    <td class="edit-field land-amount" contenteditable="false" oninput="calculateTotalLand()">৫০০</td>
+                    <td class="edit-field" contenteditable="false">২</td>
+                    <td class="edit-field" contenteditable="false">৪২০</td>
+                    <td class="edit-field" contenteditable="false">বাড়ী(আবাসিক)</td>
+                    <td class="edit-field land-amount" contenteditable="false" oninput="calculateTotalLand()">৫০০</td>
+                    <td class="no-print no-print-column">
+                      <button class="btn btn-danger admin-only" style="padding: 0px 4px;" onclick="deleteRow(this)" disabled>X</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div style="border: 1px dotted #000; border-top: none; padding: 5px 10px; display: flex; justify-content: space-between; font-weight: bold; font-size: 12px;">
+                <span style="margin-left: 180px;">সর্বমোট জমি (শতাংশ)</span>
+                <span style="margin-right: 330px;" class="edit-field" contenteditable="false" id="totalLand">৫০০</span>
+              </div>
+              <div class="full-dotted-line" style="margin-top: 15px;">
+              </div>
+              <div class="section-title">আদায়ের বিবরণ</div>
+              <table class="solid-table">
+                <thead>
+                  <tr>
+                    <th>তিন বৎসরের ঊর্ধ্বের বকেয়া</th>
+                    <th>গত তিন বৎসরের বকেয়া</th>
+                    <th>বকেয়ার জরিমানা ও ক্ষতিপূরণ</th>
+                    <th>হাল দাবি</th>
+                    <th>মোট দাবি</th>
+                    <th>মোট আদায়</th>
+                    <th>মোট বকেয়া</th>
+                    <th>মন্তব্য</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="edit-field" contenteditable="false" id="pay1">০</td>
+                    <td class="edit-field" contenteditable="false" id="pay2">০</td>
+                    <td class="edit-field" contenteditable="false" id="pay3">০</td>
+                    <td class="edit-field" contenteditable="false" id="pay4">৯,৫০০</td>
+                    <td class="edit-field" contenteditable="false" id="pay5">৯,৫০০</td>
+                    <td class="edit-field" contenteditable="false" id="pay6">৯,৫০০</td>
+                    <td class="edit-field" contenteditable="false" id="pay7">০</td>
+                    <td class="edit-field" contenteditable="false" id="pay8">
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div style="margin-top: 10px; font-weight: bold;">
+                সর্বমোট (কথায়): <span class="edit-field" contenteditable="false" id="totalWords">সাত হাজার পাঁচশত টাকা মাত্র।</span>
+              </div>
+              <div class="full-dotted-line">
+              </div>
+              <div class="footer-section">
+                <div class="footer-left">
+                  <div>
+                    <strong>নোট:</strong> সর্বশেষ কর পরিশোধের সাল - <span class="edit-field" contenteditable="false" id="taxYear">2026-2027 (অর্থবছর)</span>
+                  </div>
+                  <div>চালান নং : <span class="edit-field" contenteditable="false" id="chalanNo">৯৮৭৬৫৫৭২৫১</span>
+                </div>
+                <div style="margin-top: 6px;">
+                  তারিখ : <span class="dot-line edit-field" contenteditable="false" id="taxDate1">১৯ ভাদ্র ১৪৩৩</span>
+                  <br>
+                    <span style="margin-left: 42px;" class="dot-line edit-field" contenteditable="false" id="taxDate2">৩ সেপ্টেম্বর, ২০২৬</span>
+                  </div>
+                </div>
+                <div class="footer-center">
+                  <div id="qrcode">
+                  </div>
+                </div>
+                <div class="footer-right">
+                  <span class="edit-field" contenteditable="false">এই দাখিলা ইলেক্ট্রনিকভাবে তৈরি করা হয়েছে,</span>
+                  <br>
+                    <span class="edit-field" contenteditable="false">কোন স্বাক্ষর প্রয়োজন নেই।</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="footer-gradient">
+            </div>
+            <script>
     var qrcode;
     var adminPassword = "1234"; // আপনার ব্যক্তিগত পাসওয়ার্ড
     var isEditable = false;
@@ -447,5 +455,5 @@
       });
     }
   </script>
-</body>
-</html>
+          </body>
+        </html>
