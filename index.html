@@ -2,458 +2,624 @@
 <html lang="bn">
   <head>
     <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-        <title>ভূমি উন্নয়ন কর - রসিদ যাচাই ও এডিটর</title>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ভূমি উন্নয়ন কর পরিশোধ রসিদ - নিখুঁত সংস্করণ</title>
         <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'SolaimanLipi', Arial, sans-serif; }
-    body { background-color: #ffffff; min-height: 100vh; overflow-x: hidden; }
+        body {
+            font-family: 'SolaimanLipi', Arial, sans-serif;
+            background-color: #555;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            width: 210mm;
+            min-height: 297mm;
+            background: #fff;
+            margin: 0 auto;
+            padding: 10mm 15mm;
+            box-sizing: border-box;
+            position: relative;
+            border: 1px solid #000;
+        }
+        body.edit-mode [contenteditable="true"] {
+            outline: 1px dashed #007bff;
+            background-color: #f9f9f9;
+            cursor: text;
+        }
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+        .receipt-main-title {
+            text-align: center;
+            margin: 10px 0 15px 0;
+        }
+        .receipt-main-title h3 {
+            margin: 2px 0;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .receipt-main-title p {
+            margin: 2px 0;
+            font-size: 12px;
+        }
+        .info-section {
+            font-size: 12px;
+            line-height: 1.8;
+            margin-bottom: 10px;
+            border-bottom: 1px dotted #000;
+            padding-bottom: 8px;
+        }
+        .section-title {
+            font-weight: bold;
+            font-size: 12px;
+            text-align: center;
+            margin: 10px 0 5px 0;
+            border: 1px solid #000;
+            background: #f2f2f2;
+            padding: 3px;
+        }
+        .two-tables {
+            display: flex;
+            gap: 5px;
+        }
+        .two-tables > div {
+            flex: 1;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+            margin-bottom: 5px;
+        }
+        table, th, td {
+            border: 1px solid #000;
+        }
+        th, td {
+            padding: 3px 4px;
+            text-align: center;
+        }
+        th {
+            background-color: #fff;
+            font-weight: bold;
+        }
+        .total-land {
+            text-align: right;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            border: 1px solid #000;
+            border-top: none;
+            padding: 4px 8px;
+            background: #f9f9f9;
+        }
+        .amount-words {
+            font-size: 12px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        .footer-note {
+            font-size: 11px;
+            margin-top: 15px;
+            line-height: 1.5;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        .controls {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .controls button {
+            background: #0b6b3a;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 0 5px;
+        }
+        .controls button.save-btn {
+            background: #007bff;
+            display: none;
+        }
+        body.edit-mode .controls button.save-btn {
+            display: inline-block;
+        }
+        .action-cell {
+            display: none;
+        }
+        body.edit-mode .action-cell {
+            display: table-cell;
+        }
+        .add-row-btn {
+            display: none;
+            margin: 5px 0 10px 0;
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 4px 10px;
+            cursor: pointer;
+            border-radius: 3px;
+            font-size: 11px;
+        }
+        body.edit-mode .add-row-btn {
+            display: inline-block;
+        }
+        .del-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 1px 4px;
+            cursor: pointer;
+            border-radius: 3px;
+            font-size: 9px;
+        }
 
-    .top-banner { background-color: #006a4e; color: #ffffff; text-align: center; padding: 6px 10px; font-size: 13px; font-weight: bold; }
+        @media print {
+            .controls, .action-cell, .add-row-btn, .del-btn {
+                display: none !important;
+            }
+            body {
+                background: #fff;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                padding: 10mm;
+                border: none;
+            }
+        }
     
-    .navbar { background-color: #ffffff; display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; border-bottom: 1px solid #e0e0e0; }
-    .brand-section { display: flex; align-items: center; gap: 8px; }
-    .logo-box { background-color: #e6a100; color: #ffffff; width: 36px; height: 36px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; }
-    .brand-title { font-size: 18px; font-weight: bold; color: #222222; }
-    .nav-controls { display: flex; align-items: center; gap: 6px; }
-    .lang-toggle { border: 1px solid #006a4e; border-radius: 4px; overflow: hidden; display: flex; }
-    .lang-btn { padding: 3px 7px; font-size: 12px; font-weight: bold; }
-    .lang-btn.bn { background-color: #006a4e; color: #ffffff; }
-    .lang-btn.en { background-color: #ffffff; color: #006a4e; }
-    .login-btn { background-color: #006a4e; color: #ffffff; border: none; padding: 5px 10px; font-size: 12px; font-weight: bold; border-radius: 12px; display: flex; align-items: center; gap: 3px; }
+        .container {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 7mm 8mm 10mm;
+            border: 1px dotted #777;
+            border-radius: 10px;
+            box-shadow: none;
+        }
+        .info-section {
+            font-size: 12px;
+            line-height: 1.5;
+            margin-bottom: 7px;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .info-row {
+            display: flex;
+            align-items: baseline;
+            min-height: 23px;
+            border-bottom: 1px dotted #333;
+            white-space: nowrap;
+        }
+        .info-label { display: inline-block; }
+        .info-value {
+            display: inline-block;
+            min-height: 18px;
+            border-bottom: none;
+        }
+        .office-value { flex: 1; margin-left: 8px; }
+        .mouza-value { width: 34%; margin-left: 8px; }
+        .upazila-label { margin-left: 18px; }
+        .upazila-value { width: 12%; margin-left: 7px; }
+        .district-label { margin-left: 12px; }
+        .district-value { width: 18%; margin-left: 7px; }
+        .holding-value { width: 67%; margin-left: 8px; }
+        .khatian-value { width: 86%; margin-left: 8px; }
 
-    .menu-bar { background-color: #ffffff; padding: 8px 12px; border-bottom: 1px solid #e0e0e0; }
-    .hamburger-icon { width: 20px; height: 14px; display: flex; flex-direction: column; justify-content: space-between; }
-    .hamburger-icon span { display: block; height: 2px; background-color: #006a4e; border-radius: 1px; }
+        .section-title {
+            background: #fff;
+            border: none;
+            text-decoration: underline;
+            margin: 7px 0 4px;
+            padding: 2px;
+        }
+        .two-tables { gap: 7px; }
+        table { font-size: 10.5px; }
+        th, td { padding: 2px 3px; }
+        .footer-note { margin-top: 12px; align-items: flex-end; }
+        .page-number {
+            position: absolute;
+            right: 4mm;
+            bottom: 2mm;
+            font-size: 11px;
+        }
+        body.edit-mode .info-value {
+            outline: 1px dashed #007bff;
+            background-color: #f9f9f9;
+            cursor: text;
+        }
 
-    .receipt-wrapper {
-      width: 100%;
-      overflow-x: auto;
-      background-color: #ffffff;
-      padding: 10px;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    .receipt-paper {
-      width: 794px;
-      min-height: 1123px;
-      margin: 0 auto;
-      background: #ffffff;
-      color: #000000;
-      font-size: 13px;
-      line-height: 1.4;
-      padding: 30px;
-    }
-
-    .action-toolbar {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 8px;
-      padding: 10px;
-      background: #f0f0f0;
-      border-bottom: 1px solid #ccc;
-    }
-    .btn { background-color: #337ab7; color: #ffffff; border: 1px solid #2e6da4; padding: 6px 12px; font-size: 12px; font-weight: bold; border-radius: 4px; cursor: pointer; }
-    .btn:disabled { background-color: #cccccc !important; border-color: #aaaaaa !important; cursor: not-allowed; opacity: 0.6; }
-    .btn-lock { background: #ff9800; border-color: #e68a00; }
-    .btn-add { background: #28a745; border-color: #218838; }
-    .btn-danger { background: #dc3545; border-color: #bd2130; }
-
-    body.edit-mode .edit-field { outline: 1px dashed #337ab7; background-color: #e8f4ff; }
-
-    .top-header { display: flex; justify-content: space-between; align-items: flex-start; }
-    .header-center { text-align: center; }
-    .header-right { text-align: right; }
-    
-    .dot-line { border-bottom: 1px dotted #000; display: inline-block; padding: 0 4px; }
-    .full-dotted-line { border-bottom: 1px dotted #000; margin: 10px 0; }
-
-    table { width: 100%; border-collapse: collapse; margin-top: 6px; }
-    .section-title { text-align: center; font-weight: bold; margin-top: 12px; margin-bottom: 4px; font-size: 13px; }
-    
-    .dotted-table th, .dotted-table td { border: 1px dotted #000; padding: 5px; text-align: center; font-size: 12px; }
-    .solid-table th, .solid-table td { border: 1px solid #aaa; padding: 6px; text-align: center; font-size: 12px; }
-    .solid-table th { font-weight: bold; background-color: #f9f9f9; }
-
-    .footer-section { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 25px; }
-    .footer-left { flex: 1; font-size: 12px; }
-    .footer-center { width: 80px; display: flex; justify-content: center; }
-    .footer-right { flex: 1; text-align: right; font-size: 12px; }
-
-    .footer-gradient { height: 35px; background: linear-gradient(to top, #006a4e, #ffffff); width: 100%; margin-top: 20px; }
-
-    @media print {
-      @page { size: A4; margin: 0; }
-      .top-banner, .navbar, .menu-bar, .action-toolbar, .footer-gradient, .no-print { display: none !important; }
-      body { background: #fff; padding: 0; }
-      .receipt-wrapper { overflow: visible; padding: 0; }
-      .receipt-paper { width: 100%; min-height: auto; padding: 20px; border: none; }
-      .edit-field { outline: none !important; background: transparent !important; }
-      .no-print-column { display: none !important; }
-    }
-  </style>
+    </style>
       </head>
       <body>
-        <div class="action-toolbar no-print">
-          <button class="btn btn-lock" id="lockBtn" onclick="toggleEditMode()">🔒 এডিট আনলক</button>
-          <button class="btn" onclick="window.print()">🖨️ প্রিন্ট (A4)</button>
-          <button class="btn" onclick="downloadPDF()">📥 PDF ডাউনলোড (A4)</button>
-          <button class="btn" style="background:#17a2b8;" onclick="downloadJPG()">🖼️ JPG ডাউনলোড</button>
-          <button class="btn btn-add admin-only" onclick="addOwnerRow()" disabled>+ নতুন মালিক</button>
-          <button class="btn btn-add admin-only" onclick="addLandRow()" disabled>+ নতুন দাগ</button>
+        <div class="controls">
+          <button onclick="toggleEditMode()">🔐 এডিট মোড চালু করুন</button>
+          <button class="save-btn" onclick="saveChanges()">💾 সেভ করুন</button>
+          <button onclick="window.print()">🖨️ প্রিন্ট / ডাউনলোড</button>
         </div>
-        <div class="top-banner" id="live-date">
-        </div>
-        <div class="navbar">
-          <div class="brand-section">
-            <div class="logo-box">৳</div>
-            <div class="brand-title">ভূমি উন্নয়ন কর</div>
-          </div>
-          <div class="nav-controls">
-            <div class="lang-toggle">
-              <span class="lang-btn bn">বাং</span>
-              <span class="lang-btn en">EN</span>
-            </div>
-            <button class="login-btn">লগইন <span>▼</span>
-          </button>
-        </div>
-      </div>
-      <div class="menu-bar">
-        <div class="hamburger-icon">
-          <span>
-          </span>
-          <span>
-          </span>
-          <span>
-          </span>
-        </div>
-      </div>
-      <div class="receipt-wrapper">
-        <div class="receipt-paper" id="receipt">
+        <div class="container" id="receipt-container">
           <div class="top-header">
             <div>
-              <span class="edit-field" contenteditable="false" id="formNo">বাংলাদেশ ফরম নং ১০৭৭</span>
-              <br>
-                <span class="edit-field" contenteditable="false" id="formSub">(সংশোধিত)</span>
-              </div>
-              <div class="header-center">
-                <div style="font-size: 16px; font-weight: bold;" class="edit-field" contenteditable="false" id="receiptTitle">ভূমি উন্নয়ন কর পরিশোধ রসিদ</div>
-                <div style="font-size: 11px;" class="edit-field" contenteditable="false">(অনুচ্ছেদ ৩৯২ দ্রষ্টব্য)</div>
-              </div>
-              <div class="header-right">
-                <span class="edit-field" contenteditable="false">(পরিশিষ্ট: ৩৮)</span>
-                <br>
-                  <strong>ক্রমিক নং</strong> <span class="edit-field" contenteditable="false" id="serialNo">৮৯৬৭২৩০২১৫৯৮</span>
-                </div>
-              </div>
-              <div style="margin-top: 12px;">
-                <strong>সিটি কর্পোরেশন/ পৌর/ ইউনিয়ন ভূমি অফিসের নাম:</strong>
-                <span class="dot-line edit-field" style="width: 50%;" contenteditable="false" id="officeName">নকলা সদর ইউনিয়ন ভূমি অফিস</span>
-              </div>
-              <div style="margin-top: 8px; display: flex; justify-content: space-between;">
-                <div>
-                  <strong>মৌজার নাম ও জে. এল. নং:</strong> <span class="dot-line edit-field" contenteditable="false" id="mouzaName">গৌড়দ্বার-৩৪</span>
-                </div>
-                <div>
-                  <strong>উপজেলা/থানা:</strong> <span class="dot-line edit-field" contenteditable="false" id="upazilaName">নকলা</span>
-                </div>
-                <div>
-                  <strong>জেলা:</strong> <span class="dot-line edit-field" contenteditable="false" id="districtName">শেরপুর</span>
-                </div>
-              </div>
-              <div style="margin-top: 8px;">
-                <strong>২ নং রেজিস্টার অনুযায়ী হোল্ডিং নম্বর:</strong> <span class="dot-line edit-field" style="width: 140px;" contenteditable="false" id="holdingNo">৪০৬</span>
-              </div>
-              <div style="margin-top: 8px;">
-                <strong>খতিয়ান নং:</strong> <span class="dot-line edit-field" style="width: 140px;" contenteditable="false" id="khatianNo">৪০৭</span>
-              </div>
-              <div class="full-dotted-line">
-              </div>
-              <div class="section-title">মালিকের বিবরণ</div>
-              <table class="dotted-table" id="ownerTable">
-                <thead>
-                  <tr>
-                    <th width="10%">ক্রমঃ</th>
-                    <th width="65%">মালিকের নাম</th>
-                    <th width="20%">মালিকের অংশ</th>
-                    <th width="5%" class="no-print no-print-column">মুছুন</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="edit-field" contenteditable="false">১</td>
-                    <td class="edit-field" contenteditable="false">মহসিন আলম রাকিব</td>
-                    <td class="edit-field" contenteditable="false">১</td>
-                    <td class="no-print no-print-column">
-                      <button class="btn btn-danger admin-only" style="padding: 0px 4px;" onclick="deleteRow(this)" disabled>X</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <div class="section-title">জমির বিবরণ</div>
-              <table class="dotted-table" id="landTable">
-                <thead>
-                  <tr>
-                    <th width="8%">ক্রমঃ</th>
-                    <th width="12%">দাগ নং</th>
-                    <th width="18%">জমির শ্রেণি</th>
-                    <th width="12%">জমির পরিমাণ (শতাংশ)</th>
-                    <th width="8%">ক্রমঃ</th>
-                    <th width="12%">দাগ নং</th>
-                    <th width="18%">জমির শ্রেণি</th>
-                    <th width="10%">জমির পরিমাণ (শতাংশ)</th>
-                    <th width="4%" class="no-print no-print-column">মুছুন</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="edit-field" contenteditable="false">১</td>
-                    <td class="edit-field" contenteditable="false">৪২০</td>
-                    <td class="edit-field" contenteditable="false">কান্দা(আবাসিক)</td>
-                    <td class="edit-field land-amount" contenteditable="false" oninput="calculateTotalLand()">৫০০</td>
-                    <td class="edit-field" contenteditable="false">২</td>
-                    <td class="edit-field" contenteditable="false">৪২০</td>
-                    <td class="edit-field" contenteditable="false">বাড়ী(আবাসিক)</td>
-                    <td class="edit-field land-amount" contenteditable="false" oninput="calculateTotalLand()">৫০০</td>
-                    <td class="no-print no-print-column">
-                      <button class="btn btn-danger admin-only" style="padding: 0px 4px;" onclick="deleteRow(this)" disabled>X</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <div style="border: 1px dotted #000; border-top: none; padding: 5px 10px; display: flex; justify-content: space-between; font-weight: bold; font-size: 12px;">
-                <span style="margin-left: 180px;">সর্বমোট জমি (শতাংশ)</span>
-                <span style="margin-right: 330px;" class="edit-field" contenteditable="false" id="totalLand">৫০০</span>
-              </div>
-              <div class="full-dotted-line" style="margin-top: 15px;">
-              </div>
-              <div class="section-title">আদায়ের বিবরণ</div>
-              <table class="solid-table">
-                <thead>
-                  <tr>
-                    <th>তিন বৎসরের ঊর্ধ্বের বকেয়া</th>
-                    <th>গত তিন বৎসরের বকেয়া</th>
-                    <th>বকেয়ার জরিমানা ও ক্ষতিপূরণ</th>
-                    <th>হাল দাবি</th>
-                    <th>মোট দাবি</th>
-                    <th>মোট আদায়</th>
-                    <th>মোট বকেয়া</th>
-                    <th>মন্তব্য</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="edit-field" contenteditable="false" id="pay1">০</td>
-                    <td class="edit-field" contenteditable="false" id="pay2">০</td>
-                    <td class="edit-field" contenteditable="false" id="pay3">০</td>
-                    <td class="edit-field" contenteditable="false" id="pay4">৯,৫০০</td>
-                    <td class="edit-field" contenteditable="false" id="pay5">৯,৫০০</td>
-                    <td class="edit-field" contenteditable="false" id="pay6">৯,৫০০</td>
-                    <td class="edit-field" contenteditable="false" id="pay7">০</td>
-                    <td class="edit-field" contenteditable="false" id="pay8">
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <div style="margin-top: 10px; font-weight: bold;">
-                সর্বমোট (কথায়): <span class="edit-field" contenteditable="false" id="totalWords">সাত হাজার পাঁচশত টাকা মাত্র।</span>
-              </div>
-              <div class="full-dotted-line">
-              </div>
-              <div class="footer-section">
-                <div class="footer-left">
-                  <div>
-                    <strong>নোট:</strong> সর্বশেষ কর পরিশোধের সাল - <span class="edit-field" contenteditable="false" id="taxYear">2026-2027 (অর্থবছর)</span>
-                  </div>
-                  <div>চালান নং : <span class="edit-field" contenteditable="false" id="chalanNo">৯৮৭৬৫৫৭২৫১</span>
-                </div>
-                <div style="margin-top: 6px;">
-                  তারিখ : <span class="dot-line edit-field" contenteditable="false" id="taxDate1">১৯ ভাদ্র ১৪৩৩</span>
-                  <br>
-                    <span style="margin-left: 42px;" class="dot-line edit-field" contenteditable="false" id="taxDate2">৩ সেপ্টেম্বর, ২০২৬</span>
-                  </div>
-                </div>
-                <div class="footer-center">
-                  <div id="qrcode">
-                  </div>
-                </div>
-                <div class="footer-right">
-                  <span class="edit-field" contenteditable="false">এই দাখিলা ইলেক্ট্রনিকভাবে তৈরি করা হয়েছে,</span>
-                  <br>
-                    <span class="edit-field" contenteditable="false">কোন স্বাক্ষর প্রয়োজন নেই।</span>
-                  </div>
-                </div>
-              </div>
+              বাংলাদেশ ফরম নং ১০৭৭<br>
+              (সংশোধিত)
             </div>
-            <div class="footer-gradient">
+            <div style="text-align: right;">
+              (পরিশিষ্ট: ৩৮)<br>
+              ক্রমিক নং <span contenteditable="false">৮৯৬৭২৬০৪৬৮৯৯</span>
             </div>
-            <script>
-    var qrcode;
-    var adminPassword = "1234"; // আপনার ব্যক্তিগত পাসওয়ার্ড
-    var isEditable = false;
+          </div>
+          <div class="receipt-main-title">
+            <h3>ভূমি উন্নয়ন কর পরিশোধ রসিদ</h3>
+            <p>(অনুচ্ছেদ ৩৯২ দ্রষ্টব্য)</p>
+          </div>
+          <div class="info-section">
+            <div class="info-row office-row">
+              <span class="info-label">সিটি কর্পোরেশন/ পৌর/ ইউনিয়ন ভূমি অফিসের নাম:</span>
+              <span contenteditable="false" class="info-value office-value">রানীশিমুল ইউনিয়ন ভূমি অফিস</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">মৌজার নাম ও জে. এল. নং:</span>
+              <span contenteditable="false" class="info-value mouza-value">লয়খা হাসনখিলা-২৬</span>
+              <span class="info-label upazila-label">উপজেলা/থানা:</span>
+              <span contenteditable="false" class="info-value upazila-value">নকলা</span>
+              <span class="info-label district-label">জেলা:</span>
+              <span contenteditable="false" class="info-value district-value">শেরপুর</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">২ নং রেজিস্টার অনুযায়ী হোল্ডিং নম্বর:</span>
+              <span contenteditable="false" class="info-value holding-value">৫২০</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">খতিয়ান নং:</span>
+              <span contenteditable="false" class="info-value khatian-value">৫২০</span>
+            </div>
+          </div>
+          <div class="section-title">মালিকের বিবরণ</div>
+          <div class="two-tables">
+            <div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>ক্রমঃ</th>
+                    <th>মালিকের নাম</th>
+                    <th>মালিকের অংশ</th>
+                    <th class="action-cell">অ্যাকশন</th>
+                  </tr>
+                </thead>
+                <tbody id="owner-tbody-1">
+                  <tr>
+                    <td contenteditable="false">১</td>
+                    <td contenteditable="false">ইমান আলী</td>
+                    <td contenteditable="false">০.২০৫</td>
+                    <td class="action-cell">
+                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td contenteditable="false">২</td>
+                    <td contenteditable="false">ফুল মামুদ</td>
+                    <td contenteditable="false">০.৩৩৩</td>
+                    <td class="action-cell">
+                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td contenteditable="false">৩</td>
+                    <td contenteditable="false">হযরত আলী</td>
+                    <td contenteditable="false">০.২১৭</td>
+                    <td class="action-cell">
+                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>ক্রমঃ</th>
+                    <th>মালিকের নাম</th>
+                    <th>মালিকের অংশ</th>
+                    <th class="action-cell">অ্যাকশন</th>
+                  </tr>
+                </thead>
+                <tbody id="owner-tbody-2">
+                  <tr>
+                    <td contenteditable="false">৪</td>
+                    <td contenteditable="false">তহুরন নেছা</td>
+                    <td contenteditable="false">০.০৭৫</td>
+                    <td class="action-cell">
+                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td contenteditable="false">৫</td>
+                    <td contenteditable="false">আমিনা খাতুন</td>
+                    <td contenteditable="false">০.০৭৫</td>
+                    <td class="action-cell">
+                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td contenteditable="false">৬</td>
+                    <td contenteditable="false">ছাহেদ আলী</td>
+                    <td contenteditable="false">০.০৯৫</td>
+                    <td class="action-cell">
+                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <button class="add-row-btn" onclick="addOwnerRow()">＋ মালিক যোগ করুন</button>
+          <div class="section-title">জমির বিবরণ</div>
+          <div class="two-tables">
+            <div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>ক্রমঃ</th>
+                    <th>দাগ নং</th>
+                    <th>জমির শ্রেণি</th>
+                    <th>জমির পরিমাণ (শতাংশ)</th>
+                    <th class="action-cell">অ্যাকশন</th>
+                  </tr>
+                </thead>
+                <tbody id="land-tbody-1">
+                  <tr>
+                    <td contenteditable="false">১</td>
+                    <td contenteditable="false">১১৯৮</td>
+                    <td contenteditable="false">কান্দা (কৃষি)</td>
+                    <td contenteditable="false">১৫</td>
+                    <td class="action-cell">
+                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td contenteditable="false">২</td>
+                    <td contenteditable="false">১৮৫৫</td>
+                    <td contenteditable="false">নামা (কৃষি)</td>
+                    <td contenteditable="false">১৩</td>
+                    <td class="action-cell">
+                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td contenteditable="false">৩</td>
+                    <td contenteditable="false">১৮৬২</td>
+                    <td contenteditable="false">বাড়ী (আবাসিক)</td>
+                    <td contenteditable="false">৪</td>
+                    <td class="action-cell">
+                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td contenteditable="false">৪</td>
+                    <td contenteditable="false">১৮৬৩</td>
+                    <td contenteditable="false">বাড়ী (আবাসিক)</td>
+                    <td contenteditable="false">১৬</td>
+                    <td class="action-cell">
+                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td contenteditable="false">৫</td>
+                    <td contenteditable="false">১৮৬৫</td>
+                    <td contenteditable="false">কান্দা (কৃষি)</td>
+                    <td contenteditable="false">
+                    </td>
+                    <td class="action-cell">
+                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>ক্রমঃ</th>
+                    <th>দাগ নং</th>
+                    <th>জমির শ্রেণি</th>
+                    <th>জমির পরিমাণ (শতাংশ)</th>
+                    <th class="action-cell">অ্যাকশন</th>
+                  </tr>
+                </thead>
+                <tbody id="land-tbody-2">
+                  <tr>
+                    <td contenteditable="false">৬</td>
+                    <td contenteditable="false">১৮৬৮</td>
+                    <td contenteditable="false">কান্দা (কৃষি)</td>
+                    <td contenteditable="false">১৫</td>
+                    <td class="action-cell">
+                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td contenteditable="false">৭</td>
+                    <td contenteditable="false">১৮৭১</td>
+                    <td contenteditable="false">পতিত (কৃষি)</td>
+                    <td contenteditable="false">২</td>
+                    <td class="action-cell">
+                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td contenteditable="false">৮</td>
+                    <td contenteditable="false">১৮৮১</td>
+                    <td contenteditable="false">নামা (কৃষি)</td>
+                    <td contenteditable="false">১৮</td>
+                    <td class="action-cell">
+                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td contenteditable="false">৯</td>
+                    <td contenteditable="false">১৮৮৬</td>
+                    <td contenteditable="false">নামা (কৃষি)</td>
+                    <td contenteditable="false">৮</td>
+                    <td class="action-cell">
+                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td contenteditable="false">১০</td>
+                    <td contenteditable="false">১৮৭৫</td>
+                    <td contenteditable="false">নামা (কৃষি)</td>
+                    <td contenteditable="false">৮</td>
+                    <td class="action-cell">
+                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <button class="add-row-btn" onclick="addLandRow()">＋ জমির দাগ যোগ করুন</button>
+          <div class="total-land">
+            সর্বমোট জমি (শতাংশ) <span contenteditable="false">১০৬</span>
+          </div>
+          <div class="section-title">আদায়ের বিবরণ</div>
+          <table>
+            <thead>
+              <tr>
+                <th>তিন বৎসরের ঊর্ধ্বের বকেয়া</th>
+                <th>গত তিন বৎসরের বকেয়া</th>
+                <th>বকেয়ার জরিমানা ও ক্ষতিপূরণ</th>
+                <th>হাল দাবি</th>
+                <th>মোট দাবি</th>
+                <th>মোট আদায়</th>
+                <th>মোট বকেয়া</th>
+                <th>মন্তব্য</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td contenteditable="false">
+                </td>
+                <td contenteditable="false">
+                </td>
+                <td contenteditable="false">
+                </td>
+                <td contenteditable="false">২০০</td>
+                <td contenteditable="false">২০০</td>
+                <td contenteditable="false">২০০</td>
+                <td contenteditable="false">
+                </td>
+                <td contenteditable="false">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="amount-words">
+            সর্বমোট (কথায়): <span contenteditable="false">দুই শত টাকা মাত্র।</span>
+          </div>
+          <div class="footer-note">
+            <div>
+              নোট: সর্বশেষ কর পরিশোধের সাল <span contenteditable="false">2026-2027</span> (অর্থবছর)<br>
+              চালান নং: <span contenteditable="false">
+            </span>
+            <br>
+              তারিখ : <span contenteditable="false">১ ভাদ্র ১৪৩৩ / ১৬ আগস্ট, ২০২৬</span>
+            </div>
+            <div style="text-align: right;">
+              এই দাখিলা ইলেক্ট্রনিকভাবে তৈরি করা হয়েছে,<br>কোন স্বাক্ষর প্রয়োজন নেই।
+            </div>
+          </div>
+        </div>
+        <div class="page-number">১/১</div>
+        <script>
+    // Edit Lock: শুধু এই পাসওয়ার্ড জানা ব্যক্তি Edit Mode চালু করতে পারবেন।
+    // পরিবর্তন করতে চাইলে নিচের পাসওয়ার্ডটি বদলান।
+    const ADMIN_PASSWORD = "1234";
 
-    window.onload = function() {
-      updateQRCode();
-    };
-
-    function updateQRCode() {
-      var qrContainer = document.getElementById("qrcode");
-      qrContainer.innerHTML = "";
-      
-      var serial = document.getElementById('serialNo').innerText;
-      var office = document.getElementById('officeName').innerText;
-      var mouza = document.getElementById('mouzaName').innerText;
-      var upazila = document.getElementById('upazilaName').innerText;
-      var district = document.getElementById('districtName').innerText;
-      var holding = document.getElementById('holdingNo').innerText;
-      var khatian = document.getElementById('khatianNo').innerText;
-      var totalLand = document.getElementById('totalLand').innerText;
-      var totalAmount = document.getElementById('pay6').innerText;
-      var totalInWords = document.getElementById('totalWords').innerText;
-      var chalan = document.getElementById('chalanNo').innerText;
-      var year = document.getElementById('taxYear').innerText;
-
-      var owners = [];
-      document.querySelectorAll('#ownerTable tbody tr').forEach(tr => {
-        var name = tr.cells[1].innerText;
-        var share = tr.cells[2].innerText;
-        owners.push(name + " (অংশ: " + share + ")");
-      });
-
-      var fullData = `[ভূমি উন্নয়ন কর রসিদ]\nক্রমিক: ${serial}\nঅফিস: ${office}\nমৌজা: ${mouza}, উপজেলা: ${upazila}, জেলা: ${district}\nহোল্ডিং: ${holding}, খতিয়ান: ${khatian}\nমালিকগণ: ${owners.join(', ')}\nমোট জমি: ${totalLand} শতাংশ\nমোট আদায়: ${totalAmount} টাকা (${totalInWords})\nচালান নং: ${chalan}\nঅর্থবছর: ${year}`;
-
-      qrcode = new QRCode(qrContainer, {
-        text: fullData,
-        width: 60,
-        height: 60
-      });
+    function loadSavedData() {
+        let savedHTML = localStorage.getItem('landTaxReceipt_final_v1');
+        if (savedHTML) {
+            document.getElementById('receipt-container').innerHTML = savedHTML;
+        }
     }
 
     function toggleEditMode() {
-      if (!isEditable) {
-        var inputPass = prompt("পাসওয়ার্ড দিন:");
-        if (inputPass === adminPassword) {
-          isEditable = true;
-          document.body.classList.add('edit-mode');
-          document.querySelectorAll('.edit-field').forEach(el => {
-            el.setAttribute('contenteditable', 'true');
-            el.addEventListener('input', updateQRCode);
-          });
-          document.querySelectorAll('.admin-only').forEach(el => el.removeAttribute('disabled'));
-          document.getElementById('lockBtn').innerText = '🔓 এডিট লক করুন';
-          alert("এডিট মোড চালু হয়েছে!");
-        } else if (inputPass !== null) {
-          alert("ভুল পাসওয়ার্ড! আপনি এডিট করতে পারবেন না।");
+        let container = document.getElementById('receipt-container');
+        let editables = container.querySelectorAll('span, th, td');
+
+        if (!document.body.classList.contains('edit-mode')) {
+            let pass = prompt("অ্যাডমিন পাসওয়ার্ড দিন: (ডিফল্ট: 1234)");
+            if (pass === ADMIN_PASSWORD) {
+                document.body.classList.add('edit-mode');
+                editables.forEach(el => el.setAttribute('contenteditable', 'true'));
+                alert("এডিট মোড চালু হয়েছে।");
+            } else if (pass !== null) {
+                alert("ভুল পাসওয়ার্ড!");
+            }
+        } else {
+            document.body.classList.remove('edit-mode');
+            editables.forEach(el => el.setAttribute('contenteditable', 'false'));
         }
-      } else {
-        isEditable = false;
-        document.body.classList.remove('edit-mode');
-        document.querySelectorAll('.edit-field').forEach(el => el.setAttribute('contenteditable', 'false'));
-        document.querySelectorAll('.admin-only').forEach(el => el.setAttribute('disabled', 'true'));
-        document.getElementById('lockBtn').innerText = '🔒 এডিট আনলক';
-        alert("এডিট লক করা হয়েছে।");
-      }
     }
 
     function addOwnerRow() {
-      if (!isEditable) return;
-      var table = document.getElementById("ownerTable").getElementsByTagName('tbody')[0];
-      var rowCount = table.rows.length + 1;
-      var row = table.insertRow(-1);
-      row.innerHTML = `<td class="edit-field" contenteditable="true">${rowCount}</td>
-                       <td class="edit-field" contenteditable="true">নতুন মালিকের নাম</td>
-                       <td class="edit-field" contenteditable="true">১</td>
-                       <td class="no-print no-print-column"><button class="btn btn-danger admin-only" style="padding: 0px 4px;" onclick="deleteRow(this)">X</button></td>`;
-      updateQRCode();
+        let tbody1 = document.getElementById('owner-tbody-1');
+        let tbody2 = document.getElementById('owner-tbody-2');
+        
+        // সমান রাখার জন্য যেখানে সারি কম সেখানে স্বয়ংক্রিয়ভাবে যোগ হবে (প্রথমে বামে, তারপর ডানে)
+        let targetTbody = (tbody1.children.length <= tbody2.children.length) ? tbody1 : tbody2;
+
+        let newRow = document.createElement('tr');
+        newRow.innerHTML = `
+            <td contenteditable="true">-</td>
+            <td contenteditable="true">নাম লিখুন</td>
+            <td contenteditable="true">০.০০০</td>
+            <td class="action-cell"><button class="del-btn" onclick="deleteRow(this)">ডিলিট</button></td>
+        `;
+        targetTbody.appendChild(newRow);
     }
 
     function addLandRow() {
-      if (!isEditable) return;
-      var table = document.getElementById("landTable").getElementsByTagName('tbody')[0];
-      var row = table.insertRow(-1);
-      row.innerHTML = `<td class="edit-field" contenteditable="true">-</td>
-                       <td class="edit-field" contenteditable="true">০০০</td>
-                       <td class="edit-field" contenteditable="true">শ্রেণি</td>
-                       <td class="edit-field land-amount" contenteditable="true" oninput="calculateTotalLand(); updateQRCode();">০</td>
-                       <td class="edit-field" contenteditable="true">-</td>
-                       <td class="edit-field" contenteditable="true">০০০</td>
-                       <td class="edit-field" contenteditable="true">শ্রেণি</td>
-                       <td class="edit-field land-amount" contenteditable="true" oninput="calculateTotalLand(); updateQRCode();">০</td>
-                       <td class="no-print no-print-column"><button class="btn btn-danger admin-only" style="padding: 0px 4px;" onclick="deleteRow(this)">X</button></td>`;
-      updateQRCode();
+        let tbody1 = document.getElementById('land-tbody-1');
+        let tbody2 = document.getElementById('land-tbody-2');
+        
+        // সমান রাখার জন্য যেখানে সারি কম সেখানে স্বয়ংক্রিয়ভাবে যোগ হবে (প্রথমে বামে, তারপর ডানে)
+        let targetTbody = (tbody1.children.length <= tbody2.children.length) ? tbody1 : tbody2;
+
+        let newRow = document.createElement('tr');
+        newRow.innerHTML = `
+            <td contenteditable="true">-</td>
+            <td contenteditable="true">দাগ নং</td>
+            <td contenteditable="true">শ্রেণি</td>
+            <td contenteditable="true">০</td>
+            <td class="action-cell"><button class="del-btn" onclick="deleteRow(this)">ডিলিট</button></td>
+        `;
+        targetTbody.appendChild(newRow);
     }
 
     function deleteRow(btn) {
-      if (!isEditable) return;
-      var row = btn.parentNode.parentNode;
-      row.parentNode.removeChild(row);
-      calculateTotalLand();
-      updateQRCode();
+        let row = btn.closest('tr');
+        row.remove();
     }
 
-    function calculateTotalLand() {
-      var landCells = document.querySelectorAll('.land-amount');
-      var total = 0;
-      landCells.forEach(function(cell) {
-        var val = parseFloat(cell.innerText) || 0;
-        total += val;
-      });
-      document.getElementById('totalLand').innerText = total;
-      updateQRCode();
-    }
+    function saveChanges() {
+        let container = document.getElementById('receipt-container');
+        let editables = container.querySelectorAll('span, th, td');
+        editables.forEach(el => el.setAttribute('contenteditable', 'false'));
 
-    function prepareForExport() {
-      document.body.classList.remove('edit-mode');
-      document.querySelectorAll('.edit-field').forEach(el => el.setAttribute('contenteditable', 'false'));
-      document.querySelectorAll('.no-print-column').forEach(el => el.style.display = 'none');
-    }
-
-    function restoreAfterExport() {
-      if (isEditable) {
-        document.body.classList.add('edit-mode');
-        document.querySelectorAll('.edit-field').forEach(el => el.setAttribute('contenteditable', 'true'));
-        document.querySelectorAll('.no-print-column').forEach(el => el.style.display = 'table-cell');
-      }
-    }
-
-    function downloadPDF() {
-      prepareForExport();
-      const element = document.getElementById('receipt');
-      const options = {
-        margin:       0,
-        filename:     'Land_Tax_Receipt.pdf',
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2, useCORS: true, scrollY: 0 },
-        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-      };
-      
-      window.html2canvas(element, options.html2canvas).then((canvas) => {
-        const { jsPDF } = window.jspdf;
-        const pdf = new jsPDF('p', 'mm', 'a4');
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = pdf.internal.pageSize.getHeight();
+        localStorage.setItem('landTaxReceipt_final_v1', container.innerHTML);
         
-        const imgData = canvas.toDataURL('image/jpeg', 0.98);
-        pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
-        pdf.save('Land_Tax_Receipt.pdf');
-        restoreAfterExport();
-      });
+        document.body.classList.remove('edit-mode');
+        alert("সফলভাবে সেভ করা হয়েছে!");
+        loadSavedData();
     }
 
-    function downloadJPG() {
-      prepareForExport();
-      const element = document.getElementById('receipt');
-      window.html2canvas(element, { scale: 2, useCORS: true }).then((canvas) => {
-        const link = document.createElement('a');
-        link.download = 'Land_Tax_Receipt.jpg';
-        link.href = canvas.toDataURL('image/jpeg', 0.98);
-        link.click();
-        restoreAfterExport();
-      });
-    }
-  </script>
-          </body>
-        </html>
+    window.onload = function() { document.body.classList.remove("edit-mode"); loadSavedData(); };
+</script>
+      </body>
+    </html>
