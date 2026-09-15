@@ -159,8 +159,45 @@
             font-size: 9px;
         }
 
+        /* গোপন পাসওয়ার্ড পপআপ উইন্ডো স্টাইল */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-box {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            width: 280px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        .modal-box input {
+            width: 85%;
+            padding: 8px;
+            margin: 10px 0;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .modal-box button {
+            padding: 6px 15px;
+            margin: 5px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn-submit { background: #28a745; color: white; }
+        .btn-cancel { background: #dc3545; color: white; }
+
         @media print {
-            .controls, .action-cell, .add-row-btn, .del-btn {
+            .controls, .action-cell, .add-row-btn, .del-btn, .modal-overlay {
                 display: none !important;
             }
             body {
@@ -238,307 +275,316 @@
       </head>
       <body>
         <div class="controls">
-          <button onclick="toggleEditMode()">🔐 এডিট মোড চালু করুন</button>
+          <button onclick="openPasswordModal()">🔐 এডিট মোড চালু করুন</button>
           <button class="save-btn" onclick="saveChanges()">💾 সেভ করুন</button>
           <button onclick="window.print()">🖨️ প্রিন্ট / ডাউনলোড</button>
         </div>
-        <div class="container" id="receipt-container">
-          <div class="top-header">
-            <div>
-              বাংলাদেশ ফরম নং ১০৭৭<br>
-              (সংশোধিত)
+        <!-- পাসওয়ার্ড ইনপুট পপআপ উইন্ডো (লুকানো মোডে থাকবে) -->
+        <div class="modal-overlay" id="passwordModal">
+          <div class="modal-box">
+            <h4>অ্যাডমিন পাসওয়ার্ড দিন</h4>
+            <input type="password" id="adminPasswordInput" placeholder="পাসওয়ার্ড দিন">
+              <br>
+                <button class="btn-submit" onclick="verifyPassword()">প্রবেশ করুন</button>
+                <button class="btn-cancel" onclick="closePasswordModal()">বাতিল</button>
+              </div>
             </div>
-            <div style="text-align: right;">
-              (পরিশিষ্ট: ৩৮)<br>
-              ক্রমিক নং <span contenteditable="false">৮৯৬৭২৬০৪৬৮৯৯</span>
-            </div>
-          </div>
-          <div class="receipt-main-title">
-            <h3>ভূমি উন্নয়ন কর পরিশোধ রসিদ</h3>
-            <p>(অনুচ্ছেদ ৩৯২ দ্রষ্টব্য)</p>
-          </div>
-          <div class="info-section">
-            <div class="info-row office-row">
-              <span class="info-label">সিটি কর্পোরেশন/ পৌর/ ইউনিয়ন ভূমি অফিসের নাম:</span>
-              <span contenteditable="false" class="info-value office-value">রানীশিমুল ইউনিয়ন ভূমি অফিস</span>
-            </div>
-            <div class="info-row">
-              <span class="info-label">মৌজার নাম ও জে. এল. নং:</span>
-              <span contenteditable="false" class="info-value mouza-value">লয়খা হাসনখিলা-২৬</span>
-              <span class="info-label upazila-label">উপজেলা/থানা:</span>
-              <span contenteditable="false" class="info-value upazila-value">নকলা</span>
-              <span class="info-label district-label">জেলা:</span>
-              <span contenteditable="false" class="info-value district-value">শেরপুর</span>
-            </div>
-            <div class="info-row">
-              <span class="info-label">২ নং রেজিস্টার অনুযায়ী হোল্ডিং নম্বর:</span>
-              <span contenteditable="false" class="info-value holding-value">৫২০</span>
-            </div>
-            <div class="info-row">
-              <span class="info-label">খতিয়ান নং:</span>
-              <span contenteditable="false" class="info-value khatian-value">৫২০</span>
-            </div>
-          </div>
-          <div class="section-title">মালিকের বিবরণ</div>
-          <div class="two-tables">
-            <div>
+            <div class="container" id="receipt-container">
+              <div class="top-header">
+                <div>
+                  বাংলাদেশ ফরম নং ১০৭৭<br>
+                  (সংশোধিত)
+                </div>
+                <div style="text-align: right;">
+                  (পরিশিষ্ট: ৩৮)<br>
+                  ক্রমিক নং <span contenteditable="false">৮৯৬৭২৬০৪৬৮৯৯</span>
+                </div>
+              </div>
+              <div class="receipt-main-title">
+                <h3>ভূমি উন্নয়ন কর পরিশোধ রসিদ</h3>
+                <p>(অনুচ্ছেদ ৩৯২ দ্রষ্টব্য)</p>
+              </div>
+              <div class="info-section">
+                <div class="info-row office-row">
+                  <span class="info-label">সিটি কর্পোরেশন/ পৌর/ ইউনিয়ন ভূমি অফিসের নাম:</span>
+                  <span contenteditable="false" class="info-value office-value">রানীশিমুল ইউনিয়ন ভূমি অফিস</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">মৌজার নাম ও জে. এল. নং:</span>
+                  <span contenteditable="false" class="info-value mouza-value">লয়খা হাসনখিলা-২৬</span>
+                  <span class="info-label upazila-label">উপজেলা/থানা:</span>
+                  <span contenteditable="false" class="info-value upazila-value">নকলা</span>
+                  <span class="info-label district-label">জেলা:</span>
+                  <span contenteditable="false" class="info-value district-value">শেরপুর</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">২ নং রেজিস্টার অনুযায়ী হোল্ডিং নম্বর:</span>
+                  <span contenteditable="false" class="info-value holding-value">৫২০</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">খতিয়ান নং:</span>
+                  <span contenteditable="false" class="info-value khatian-value">৫২০</span>
+                </div>
+              </div>
+              <div class="section-title">মালিকের বিবরণ</div>
+              <div class="two-tables">
+                <div>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>ক্রমঃ</th>
+                        <th>মালিকের নাম</th>
+                        <th>মালিকের অংশ</th>
+                        <th class="action-cell">অ্যাকশন</th>
+                      </tr>
+                    </thead>
+                    <tbody id="owner-tbody-1">
+                      <tr>
+                        <td contenteditable="false">১</td>
+                        <td contenteditable="false">ইমান আলী</td>
+                        <td contenteditable="false">০.২০৫</td>
+                        <td class="action-cell">
+                          <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td contenteditable="false">২</td>
+                        <td contenteditable="false">ফুল মামুদ</td>
+                        <td contenteditable="false">০.৩৩৩</td>
+                        <td class="action-cell">
+                          <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td contenteditable="false">৩</td>
+                        <td contenteditable="false">হযরত আলী</td>
+                        <td contenteditable="false">০.২১৭</td>
+                        <td class="action-cell">
+                          <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>ক্রমঃ</th>
+                        <th>মালিকের নাম</th>
+                        <th>মালিকের অংশ</th>
+                        <th class="action-cell">অ্যাকশন</th>
+                      </tr>
+                    </thead>
+                    <tbody id="owner-tbody-2">
+                      <tr>
+                        <td contenteditable="false">৪</td>
+                        <td contenteditable="false">তহুরন নেছা</td>
+                        <td contenteditable="false">০.০৭৫</td>
+                        <td class="action-cell">
+                          <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td contenteditable="false">৫</td>
+                        <td contenteditable="false">আমিনা খাতুন</td>
+                        <td contenteditable="false">০.০৭৫</td>
+                        <td class="action-cell">
+                          <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td contenteditable="false">৬</td>
+                        <td contenteditable="false">ছাহেদ আলী</td>
+                        <td contenteditable="false">০.০৯৫</td>
+                        <td class="action-cell">
+                          <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <button class="add-row-btn" onclick="addOwnerRow()">＋ মালিক যোগ করুন</button>
+              <div class="section-title">জমির বিবরণ</div>
+              <div class="two-tables">
+                <div>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>ক্রমঃ</th>
+                        <th>দাগ নং</th>
+                        <th>জমির শ্রেণি</th>
+                        <th>জমির পরিমাণ (শতাংশ)</th>
+                        <th class="action-cell">অ্যাকশন</th>
+                      </tr>
+                    </thead>
+                    <tbody id="land-tbody-1">
+                      <tr>
+                        <td contenteditable="false">১</td>
+                        <td contenteditable="false">১১৯৮</td>
+                        <td contenteditable="false">কান্দা (কৃষি)</td>
+                        <td contenteditable="false">১৫</td>
+                        <td class="action-cell">
+                          <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td contenteditable="false">২</td>
+                        <td contenteditable="false">১৮৫৫</td>
+                        <td contenteditable="false">নামা (কৃষি)</td>
+                        <td contenteditable="false">১৩</td>
+                        <td class="action-cell">
+                          <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td contenteditable="false">৩</td>
+                        <td contenteditable="false">১৮৬২</td>
+                        <td contenteditable="false">বাড়ী (আবাসিক)</td>
+                        <td contenteditable="false">৪</td>
+                        <td class="action-cell">
+                          <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td contenteditable="false">৪</td>
+                        <td contenteditable="false">১৮৬৩</td>
+                        <td contenteditable="false">বাড়ী (আবাসিক)</td>
+                        <td contenteditable="false">১৬</td>
+                        <td class="action-cell">
+                          <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td contenteditable="false">৫</td>
+                        <td contenteditable="false">১৮৬৫</td>
+                        <td contenteditable="false">কান্দা (কৃষি)</td>
+                        <td contenteditable="false">
+                        </td>
+                        <td class="action-cell">
+                          <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>ক্রমঃ</th>
+                        <th>দাগ নং</th>
+                        <th>জমির শ্রেণি</th>
+                        <th>জমির পরিমাণ (শতাংশ)</th>
+                        <th class="action-cell">অ্যাকশন</th>
+                      </tr>
+                    </thead>
+                    <tbody id="land-tbody-2">
+                      <tr>
+                        <td contenteditable="false">৬</td>
+                        <td contenteditable="false">১৮৬৮</td>
+                        <td contenteditable="false">কান্দা (কৃষি)</td>
+                        <td contenteditable="false">১৫</td>
+                        <td class="action-cell">
+                          <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td contenteditable="false">৭</td>
+                        <td contenteditable="false">১৮৭১</td>
+                        <td contenteditable="false">পতিত (কৃষি)</td>
+                        <td contenteditable="false">২</td>
+                        <td class="action-cell">
+                          <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td contenteditable="false">৮</td>
+                        <td contenteditable="false">১৮৮১</td>
+                        <td contenteditable="false">নামা (কৃষি)</td>
+                        <td contenteditable="false">১৮</td>
+                        <td class="action-cell">
+                          <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td contenteditable="false">৯</td>
+                        <td contenteditable="false">১৮৮৬</td>
+                        <td contenteditable="false">নামা (কৃষি)</td>
+                        <td contenteditable="false">৮</td>
+                        <td class="action-cell">
+                          <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td contenteditable="false">১০</td>
+                        <td contenteditable="false">১৮৭৫</td>
+                        <td contenteditable="false">নামা (কৃষি)</td>
+                        <td contenteditable="false">৮</td>
+                        <td class="action-cell">
+                          <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <button class="add-row-btn" onclick="addLandRow()">＋ জমির দাগ যোগ করুন</button>
+              <div class="total-land">
+                সর্বমোট জমি (শতাংশ) <span contenteditable="false">১০৬</span>
+              </div>
+              <div class="section-title">আদায়ের বিবরণ</div>
               <table>
                 <thead>
                   <tr>
-                    <th>ক্রমঃ</th>
-                    <th>মালিকের নাম</th>
-                    <th>মালিকের অংশ</th>
-                    <th class="action-cell">অ্যাকশন</th>
+                    <th>তিন বৎসরের ঊর্ধ্বের বকেয়া</th>
+                    <th>গত তিন বৎসরের বকেয়া</th>
+                    <th>বকেয়ার জরিমানা ও ক্ষতিপূরণ</th>
+                    <th>হাল দাবি</th>
+                    <th>মোট দাবি</th>
+                    <th>মোট আদায়</th>
+                    <th>মোট বকেয়া</th>
+                    <th>মন্তব্য</th>
                   </tr>
                 </thead>
-                <tbody id="owner-tbody-1">
+                <tbody>
                   <tr>
-                    <td contenteditable="false">১</td>
-                    <td contenteditable="false">ইমান আলী</td>
-                    <td contenteditable="false">০.২০৫</td>
-                    <td class="action-cell">
-                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td contenteditable="false">২</td>
-                    <td contenteditable="false">ফুল মামুদ</td>
-                    <td contenteditable="false">০.৩৩৩</td>
-                    <td class="action-cell">
-                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td contenteditable="false">৩</td>
-                    <td contenteditable="false">হযরত আলী</td>
-                    <td contenteditable="false">০.২১৭</td>
-                    <td class="action-cell">
-                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div>
-              <table>
-                <thead>
-                  <tr>
-                    <th>ক্রমঃ</th>
-                    <th>মালিকের নাম</th>
-                    <th>মালিকের অংশ</th>
-                    <th class="action-cell">অ্যাকশন</th>
-                  </tr>
-                </thead>
-                <tbody id="owner-tbody-2">
-                  <tr>
-                    <td contenteditable="false">৪</td>
-                    <td contenteditable="false">তহুরন নেছা</td>
-                    <td contenteditable="false">০.০৭৫</td>
-                    <td class="action-cell">
-                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td contenteditable="false">৫</td>
-                    <td contenteditable="false">আমিনা খাতুন</td>
-                    <td contenteditable="false">০.০৭৫</td>
-                    <td class="action-cell">
-                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td contenteditable="false">৬</td>
-                    <td contenteditable="false">ছাহেদ আলী</td>
-                    <td contenteditable="false">০.০৯৫</td>
-                    <td class="action-cell">
-                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <button class="add-row-btn" onclick="addOwnerRow()">＋ মালিক যোগ করুন</button>
-          <div class="section-title">জমির বিবরণ</div>
-          <div class="two-tables">
-            <div>
-              <table>
-                <thead>
-                  <tr>
-                    <th>ক্রমঃ</th>
-                    <th>দাগ নং</th>
-                    <th>জমির শ্রেণি</th>
-                    <th>জমির পরিমাণ (শতাংশ)</th>
-                    <th class="action-cell">অ্যাকশন</th>
-                  </tr>
-                </thead>
-                <tbody id="land-tbody-1">
-                  <tr>
-                    <td contenteditable="false">১</td>
-                    <td contenteditable="false">১১৯৮</td>
-                    <td contenteditable="false">কান্দা (কৃষি)</td>
-                    <td contenteditable="false">১৫</td>
-                    <td class="action-cell">
-                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td contenteditable="false">২</td>
-                    <td contenteditable="false">১৮৫৫</td>
-                    <td contenteditable="false">নামা (কৃষি)</td>
-                    <td contenteditable="false">১৩</td>
-                    <td class="action-cell">
-                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td contenteditable="false">৩</td>
-                    <td contenteditable="false">১৮৬২</td>
-                    <td contenteditable="false">বাড়ী (আবাসিক)</td>
-                    <td contenteditable="false">৪</td>
-                    <td class="action-cell">
-                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td contenteditable="false">৪</td>
-                    <td contenteditable="false">১৮৬৩</td>
-                    <td contenteditable="false">বাড়ী (আবাসিক)</td>
-                    <td contenteditable="false">১৬</td>
-                    <td class="action-cell">
-                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td contenteditable="false">৫</td>
-                    <td contenteditable="false">১৮৬৫</td>
-                    <td contenteditable="false">কান্দা (কৃষি)</td>
                     <td contenteditable="false">
                     </td>
-                    <td class="action-cell">
-                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
+                    <td contenteditable="false">
+                    </td>
+                    <td contenteditable="false">
+                    </td>
+                    <td contenteditable="false">২০০</td>
+                    <td contenteditable="false">২০০</td>
+                    <td contenteditable="false">২০০</td>
+                    <td contenteditable="false">
+                    </td>
+                    <td contenteditable="false">
                     </td>
                   </tr>
                 </tbody>
               </table>
+              <div class="amount-words">
+                সর্বমোট (কথায়): <span contenteditable="false">দুই শত টাকা মাত্র।</span>
+              </div>
+              <div class="footer-note">
+                <div>
+                  নোট: সর্বশেষ কর পরিশোধের সাল <span contenteditable="false">2026-2027</span> (অর্থবছর)<br>
+                  চালান নং: <span contenteditable="false">
+                </span>
+                <br>
+                  তারিখ : <span contenteditable="false">১ ভাদ্র ১৪৩৩ / ১৬ আগস্ট, ২০২৬</span>
+                </div>
+                <div style="text-align: right;">
+                  এই দাখিলা ইলেক্ট্রনিকভাবে তৈরি করা হয়েছে,<br>কোন স্বাক্ষর প্রয়োজন নেই।
+                </div>
+              </div>
             </div>
-            <div>
-              <table>
-                <thead>
-                  <tr>
-                    <th>ক্রমঃ</th>
-                    <th>দাগ নং</th>
-                    <th>জমির শ্রেণি</th>
-                    <th>জমির পরিমাণ (শতাংশ)</th>
-                    <th class="action-cell">অ্যাকশন</th>
-                  </tr>
-                </thead>
-                <tbody id="land-tbody-2">
-                  <tr>
-                    <td contenteditable="false">৬</td>
-                    <td contenteditable="false">১৮৬৮</td>
-                    <td contenteditable="false">কান্দা (কৃষি)</td>
-                    <td contenteditable="false">১৫</td>
-                    <td class="action-cell">
-                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td contenteditable="false">৭</td>
-                    <td contenteditable="false">১৮৭১</td>
-                    <td contenteditable="false">পতিত (কৃষি)</td>
-                    <td contenteditable="false">২</td>
-                    <td class="action-cell">
-                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td contenteditable="false">৮</td>
-                    <td contenteditable="false">১৮৮১</td>
-                    <td contenteditable="false">নামা (কৃষি)</td>
-                    <td contenteditable="false">১৮</td>
-                    <td class="action-cell">
-                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td contenteditable="false">৯</td>
-                    <td contenteditable="false">১৮৮৬</td>
-                    <td contenteditable="false">নামা (কৃষি)</td>
-                    <td contenteditable="false">৮</td>
-                    <td class="action-cell">
-                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td contenteditable="false">১০</td>
-                    <td contenteditable="false">১৮৭৫</td>
-                    <td contenteditable="false">নামা (কৃষি)</td>
-                    <td contenteditable="false">৮</td>
-                    <td class="action-cell">
-                      <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <button class="add-row-btn" onclick="addLandRow()">＋ জমির দাগ যোগ করুন</button>
-          <div class="total-land">
-            সর্বমোট জমি (শতাংশ) <span contenteditable="false">১০৬</span>
-          </div>
-          <div class="section-title">আদায়ের বিবরণ</div>
-          <table>
-            <thead>
-              <tr>
-                <th>তিন বৎসরের ঊর্ধ্বের বকেয়া</th>
-                <th>গত তিন বৎসরের বকেয়া</th>
-                <th>বকেয়ার জরিমানা ও ক্ষতিপূরণ</th>
-                <th>হাল দাবি</th>
-                <th>মোট দাবি</th>
-                <th>মোট আদায়</th>
-                <th>মোট বকেয়া</th>
-                <th>মন্তব্য</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td contenteditable="false">
-                </td>
-                <td contenteditable="false">
-                </td>
-                <td contenteditable="false">
-                </td>
-                <td contenteditable="false">২০০</td>
-                <td contenteditable="false">২০০</td>
-                <td contenteditable="false">২০০</td>
-                <td contenteditable="false">
-                </td>
-                <td contenteditable="false">
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="amount-words">
-            সর্বমোট (কথায়): <span contenteditable="false">দুই শত টাকা মাত্র।</span>
-          </div>
-          <div class="footer-note">
-            <div>
-              নোট: সর্বশেষ কর পরিশোধের সাল <span contenteditable="false">2026-2027</span> (অর্থবছর)<br>
-              চালান নং: <span contenteditable="false">
-            </span>
-            <br>
-              তারিখ : <span contenteditable="false">১ ভাদ্র ১৪৩৩ / ১৬ আগস্ট, ২০২৬</span>
-            </div>
-            <div style="text-align: right;">
-              এই দাখিলা ইলেক্ট্রনিকভাবে তৈরি করা হয়েছে,<br>কোন স্বাক্ষর প্রয়োজন নেই।
-            </div>
-          </div>
-        </div>
-        <div class="page-number">১/১</div>
-        <script>
-    // Edit Lock: শুধু এই পাসওয়ার্ড জানা ব্যক্তি Edit Mode চালু করতে পারবেন।
-    // পরিবর্তন করতে চাইলে নিচের পাসওয়ার্ডটি বদলান।
+            <div class="page-number">১/১</div>
+            <script>
+    // Edit Lock: পাসওয়ার্ড পরিবর্তন করতে চাইলে নিচের কোড বদলান।
     const ADMIN_PASSWORD = "1234";
 
     function loadSavedData() {
@@ -548,22 +594,27 @@
         }
     }
 
-    function toggleEditMode() {
-        let container = document.getElementById('receipt-container');
-        let editables = container.querySelectorAll('span, th, td');
+    function openPasswordModal() {
+        document.getElementById('passwordModal').style.display = 'flex';
+        document.getElementById('adminPasswordInput').value = '';
+    }
 
-        if (!document.body.classList.contains('edit-mode')) {
-            let pass = prompt("অ্যাডমিন পাসওয়ার্ড দিন: (ডিফল্ট: 1234)");
-            if (pass === ADMIN_PASSWORD) {
-                document.body.classList.add('edit-mode');
-                editables.forEach(el => el.setAttribute('contenteditable', 'true'));
-                alert("এডিট মোড চালু হয়েছে।");
-            } else if (pass !== null) {
-                alert("ভুল পাসওয়ার্ড!");
-            }
+    function closePasswordModal() {
+        document.getElementById('passwordModal').style.display = 'none';
+    }
+
+    function verifyPassword() {
+        let pass = document.getElementById('adminPasswordInput').value;
+        if (pass === ADMIN_PASSWORD) {
+            closePasswordModal();
+            let container = document.getElementById('receipt-container');
+            let editables = container.querySelectorAll('span, th, td');
+
+            document.body.classList.add('edit-mode');
+            editables.forEach(el => el.setAttribute('contenteditable', 'true'));
+            alert("এডিট মোড চালু হয়েছে।");
         } else {
-            document.body.classList.remove('edit-mode');
-            editables.forEach(el => el.setAttribute('contenteditable', 'false'));
+            alert("ভুল পাসওয়ার্ড!");
         }
     }
 
@@ -571,7 +622,6 @@
         let tbody1 = document.getElementById('owner-tbody-1');
         let tbody2 = document.getElementById('owner-tbody-2');
         
-        // সমান রাখার জন্য যেখানে সারি কম সেখানে স্বয়ংক্রিয়ভাবে যোগ হবে (প্রথমে বামে, তারপর ডানে)
         let targetTbody = (tbody1.children.length <= tbody2.children.length) ? tbody1 : tbody2;
 
         let newRow = document.createElement('tr');
@@ -588,7 +638,6 @@
         let tbody1 = document.getElementById('land-tbody-1');
         let tbody2 = document.getElementById('land-tbody-2');
         
-        // সমান রাখার জন্য যেখানে সারি কম সেখানে স্বয়ংক্রিয়ভাবে যোগ হবে (প্রথমে বামে, তারপর ডানে)
         let targetTbody = (tbody1.children.length <= tbody2.children.length) ? tbody1 : tbody2;
 
         let newRow = document.createElement('tr');
@@ -621,5 +670,5 @@
 
     window.onload = function() { document.body.classList.remove("edit-mode"); loadSavedData(); };
 </script>
-      </body>
-    </html>
+          </body>
+        </html>
