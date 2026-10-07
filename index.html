@@ -1,116 +1,120 @@
 <!DOCTYPE html>
 <html lang="bn">
-  <head>
+<head>
     <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>ভূমি উন্নয়ন কর পরিশোধ রসিদ</title>
-        <!-- বাংলা ফন্টগুলোর জন্য অনলাইন লিংক (Google Fonts) -->
-        <link href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@400;600&family=Hind+Siliguri:wght@400;600&family=Tiro+Bangla:ital@0;1&family=Noto+Serif+Bengali:wght@400;600&family=Baloo+Da+2:wght@400;600&family=Mina:wght@400;700&display=swap" rel="stylesheet">
-          <style>
-        /* ফন্ট স্টাইল ক্লাসসমূহ */
-        body.font-solaiman {
-            font-family: 'SolaimanLipi', Arial, sans-serif !important;
-        }
-        body.font-nikosh {
-            font-family: 'Nikosh', 'Hind Siliguri', 'Anek Bangla', sans-serif !important;
-        }
-        body.font-kalpurush {
-            font-family: 'Kalpurush', 'Tiro Bangla', serif !important;
-        }
-        body.font-siyam {
-            font-family: 'Siyam Rupali', 'Hind Siliguri', sans-serif !important;
-        }
-        body.font-anek {
-            font-family: 'Anek Bangla', sans-serif !important;
-        }
-        body.font-SolaimanLipiClassic {
-            font-family: 'SolaimanLipi', 'Tiro Bangla', sans-serif !important;
-        }
-        body.font-noto-serif {
-            font-family: 'Noto Serif Bengali', serif !important;
-        }
-        body.font-hind {
-            font-family: 'Hind Siliguri', sans-serif !important;
-        }
-        body.font-baloo {
-            font-family: 'Baloo Da 2', cursive, sans-serif !important;
-        }
-        body.font-mina {
-            font-family: 'Mina', sans-serif !important;
-        }
-        body.font-adorsho {
-            font-family: 'AdorshoLipi', 'SolaimanLipi', sans-serif !important;
-        }
-        body.font-mukti {
-            font-family: 'Mukti', 'Kalpurush', sans-serif !important;
-        }
-        body.font-sutonnymj {
-            font-family: 'SutonnyMJ', 'SolaimanLipi', sans-serif !important;
-        }
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ভূমি উন্নয়ন কর পরিশোধ রসিদ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@400;600&family=Hind+Siliguri:wght@400;600&family=Tiro+Bangla:ital@0;1&family=Noto+Serif+Bengali:wght@400;600&family=Baloo+Da+2:wght@400;600&family=Mina:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body.font-solaiman { font-family: 'SolaimanLipi', Arial, sans-serif !important; }
+        body.font-nikosh { font-family: 'Nikosh', 'Hind Siliguri', 'Anek Bangla', sans-serif !important; }
+        body.font-kalpurush { font-family: 'Kalpurush', 'Tiro Bangla', serif !important; }
+        body.font-siyam { font-family: 'Siyam Rupali', 'Hind Siliguri', sans-serif !important; }
+        body.font-anek { font-family: 'Anek Bangla', sans-serif !important; }
+        body.font-SolaimanLipiClassic { font-family: 'SolaimanLipi', 'Tiro Bangla', sans-serif !important; }
+        body.font-noto-serif { font-family: 'Noto Serif Bengali', serif !important; }
+        body.font-hind { font-family: 'Hind Siliguri', sans-serif !important; }
+        body.font-baloo { font-family: 'Baloo Da 2', cursive, sans-serif !important; }
+        body.font-mina { font-family: 'Mina', sans-serif !important; }
+        body.font-adorsho { font-family: 'AdorshoLipi', 'SolaimanLipi', sans-serif !important; }
+        body.font-mukti { font-family: 'Mukti', 'Kalpurush', sans-serif !important; }
+        body.font-sutonnymj { font-family: 'SutonnyMJ', 'SolaimanLipi', sans-serif !important; }
 
         body {
             font-family: 'SolaimanLipi', Arial, sans-serif;
-            background-color: #555;
+            background-color: #333;
             margin: 0;
             padding: 20px;
+        }
+
+        /* --- কন্ট্রোল প্যানেল --- */
+        .controls-wrapper {
+            background: #4a4a4a;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin: 0 auto 20px auto;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap; 
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 1100px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            box-sizing: border-box;
+            gap: 15px;
+        }
+        .ctrl-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .tools-dark-bg {
+            background: #333;
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+        .tool-label { color: #fff; font-size: 15px; font-weight: bold; }
+        .btn-custom {
+            border: none;
+            padding: 10px 18px; 
+            font-size: 15px; 
+            cursor: pointer;
+            border-radius: 6px;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+        }
+        .btn-green { background: #0e8a48; color: white; }
+        .btn-blue { background: #0d6efd; color: white; display: none; }
+        body.edit-mode .btn-blue { display: flex; }
+        .btn-red { background: #e3342f; color: white; }
+        .btn-tool {
+            background: #444; color: white; border: none;
+            padding: 8px 12px; border-radius: 5px; cursor: pointer;
+            font-size: 15px; font-weight: bold;
+        }
+        .btn-tool:hover { background: #555; }
+        .custom-select {
+            padding: 10px 15px; font-size: 15px; border-radius: 5px;
+            border: none; outline: none; font-weight: bold; cursor: pointer;
+        }
+
+        /* --- রসিদ কন্টেইনার --- */
+        #receipt-wrapper {
+            transition: transform 0.2s ease-in-out;
+            margin: 0 auto;
+            width: 210mm;
         }
         .container {
             width: 210mm;
             min-height: 297mm;
             background: #fff;
-            margin: 0 auto;
             padding: 7mm 8mm 10mm;
             box-sizing: border-box;
             position: relative;
             border: 2px dotted #555;
             border-radius: 10px;
+            font-size: 14px; 
         }
         body.edit-mode [contenteditable="true"] {
-            outline: 1px dashed #007bff;
-            background-color: #f9f9f9;
-            cursor: text;
+            outline: 1px dashed #007bff; background-color: #f9f9f9; cursor: text;
         }
-        .top-header {
-            display: flex;
-            justify-content: space-between;
-            font-size: 13px;
-            line-height: 1.4;
-        }
-        .receipt-main-title {
-            text-align: center;
-            margin: 10px 0 15px 0;
-        }
-        .receipt-main-title h3 {
-            margin: 2px 0;
-            font-size: 16px;
-            font-weight: bold;
-        }
-        .receipt-main-title p {
-            margin: 2px 0;
-            font-size: 12px;
-        }
-        .info-section {
-            font-size: 12px;
-            line-height: 1.5;
-            margin-bottom: 7px;
-        }
+        .top-header { display: flex; justify-content: space-between; font-size: 15px; line-height: 1.4; }
+        .receipt-main-title { text-align: center; margin: 10px 0 15px 0; }
+        .receipt-main-title h3 { margin: 2px 0; font-size: 18px; font-weight: bold; }
+        .receipt-main-title p { margin: 2px 0; font-size: 14px; }
+        .info-section { font-size: 14px; line-height: 1.5; margin-bottom: 7px; }
+        
         .info-row {
-            display: flex;
-            align-items: baseline;
-            min-height: 23px;
-            white-space: nowrap;
-            margin-bottom: 4px;
+            display: flex; align-items: baseline; min-height: 23px; white-space: nowrap; margin-bottom: 4px;
         }
-        .info-label { 
-            display: inline-block; 
-        }
-        .info-value {
-            display: inline-block;
-            min-height: 18px;
-            border-bottom: 1px dotted #000;
-            padding-bottom: 1px;
-        }
-        .office-value { flex: 1; margin-left: 8px; }
+        .info-label { display: inline-block; }
+        .info-value { display: inline-block; min-height: 18px; border-bottom: 1px dotted #000; padding-bottom: 1px; }
+        
+        .office-value { margin-left: 15px; flex: 1; text-align: left; } 
         .mouza-value { width: 34%; margin-left: 8px; }
         .upazila-label { margin-left: 18px; }
         .upazila-value { width: 12%; margin-left: 7px; }
@@ -119,558 +123,293 @@
         .holding-value { width: 67%; margin-left: 8px; }
         .khatian-value { width: 86%; margin-left: 8px; }
 
-        .section-title {
-            font-weight: bold;
-            font-size: 12px;
-            text-align: center;
-            margin: 7px 0 4px;
-            background: #fff;
-            padding: 2px;
-            text-decoration: underline;
-        }
-        .two-tables {
-            display: flex;
-            gap: 7px;
-        }
-        .two-tables > div {
-            flex: 1;
-        }
+        .section-title { font-weight: bold; font-size: 14px; text-align: center; margin: 7px 0 4px; background: #fff; padding: 2px; }
+        
+        .two-tables { display: flex; gap: 7px; width: 100%; }
+        .two-tables > div { flex: 1; }
+        table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-bottom: 0px; }
+        table, th, td { border: 1px dotted #666; }
+        th, td { padding: 4px 5px; text-align: center; }
+        th { background-color: #fff; font-weight: bold; }
+        
+        .amount-table { border: 1px solid #b5b5b5; margin-top: 5px; }
+        .amount-table th, .amount-table td { border: 1px solid #b5b5b5; background-color: #fafafa; }
+        .amount-words { font-size: 14px; margin: 10px 0; font-weight: bold; }
+        .footer-note { font-size: 13px; margin-top: 12px; line-height: 1.5; display: flex; justify-content: space-between; align-items: flex-end; }
+        .page-number { position: absolute; right: 4mm; bottom: 2mm; font-size: 13px; }
 
-        /* সাধারণ টেবিলগুলোতে সলিড রেখার বদলে ডট ডট (dotted) ব্যবহার করা হলো */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 10.5px;
-            margin-bottom: 5px;
-        }
-        table, th, td {
-            border: 1px dotted #666;
-        }
-        th, td {
-            padding: 2px 3px;
-            text-align: center;
-        }
-        th {
-            background-color: #fff;
-            font-weight: bold;
-        }
-
-        /* আদায়ের বিবরণের টেবিল: ডট ডট বাদ দিয়ে একদম হালকা রঙের সলিড রেখা বা বক্স করা হলো */
-        .amount-table {
-            border: 1px solid #b5b5b5; 
-        }
-        .amount-table th, .amount-table td {
-            border: 1px solid #b5b5b5; 
-            background-color: #fafafa;
-        }
-
-        .total-land {
-            text-align: right;
-            font-size: 12px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            border: 1px dotted #666;
-            border-top: none;
-            padding: 4px 8px;
-            background: #f9f9f9;
-        }
-        .amount-words {
-            font-size: 12px;
-            margin: 10px 0;
-            font-weight: bold;
-        }
-        .footer-note {
-            font-size: 11px;
-            margin-top: 12px;
-            line-height: 1.5;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-        }
-        .page-number {
-            position: absolute;
-            right: 4mm;
-            bottom: 2mm;
-            font-size: 11px;
-        }
-        .controls {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-        .controls button {
-            background: #0b6b3a;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            font-size: 15px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        .controls button.save-btn {
-            background: #007bff;
-            display: none;
-        }
-        body.edit-mode .controls button.save-btn {
-            display: inline-block;
-        }
-        .controls button.reset-btn {
-            background: #dc3545;
-        }
-        .font-selector-box select {
-            background: #fff;
-            color: #333;
-            border: none;
-            padding: 10px 12px;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 5px;
-            outline: none;
-        }
-        .action-cell {
-            display: none;
-        }
-        body.edit-mode .action-cell {
-            display: table-cell;
-        }
+        /* অ্যাকশন বাটন */
+        .action-cell { display: none; }
+        body.edit-mode .action-cell { display: table-cell; }
         .add-row-btn {
-            display: none;
-            margin: 5px 0 10px 0;
-            background: #28a745;
-            color: white;
-            border: none;
-            padding: 4px 10px;
-            cursor: pointer;
-            border-radius: 3px;
-            font-size: 11px;
+            display: none; margin: 5px 0 10px 0; background: #28a745; color: white;
+            border: none; padding: 6px 12px; cursor: pointer; border-radius: 4px; font-size: 13px; font-weight: bold;
         }
-        body.edit-mode .add-row-btn {
-            display: inline-block;
-        }
-        .del-btn {
-            background: #dc3545;
-            color: white;
-            border: none;
-            padding: 1px 4px;
-            cursor: pointer;
-            border-radius: 3px;
-            font-size: 9px;
-        }
+        body.edit-mode .add-row-btn { display: inline-block; }
+        .del-btn { background: #dc3545; color: white; border: none; padding: 3px 6px; cursor: pointer; border-radius: 3px; font-size: 11px; }
 
-        /* সাইজ ছোট-বড় করার বাটন প্যানেল */
-        .size-controls {
-            display: none;
-            gap: 4px;
-            align-items: center;
-            background: #444;
-            padding: 5px;
-            border-radius: 5px;
-        }
-        body.edit-mode .size-controls {
-            display: flex;
-        }
-        .size-controls button {
-            background: #333;
-            padding: 6px 10px;
-            font-size: 13px;
-        }
-
-        /* গোপন পাসওয়ার্ড পপআপ উইন্ডো স্টাইল */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-        .modal-box {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-            width: 280px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-        .modal-box input {
-            width: 85%;
-            padding: 8px;
-            margin: 10px 0;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        .modal-box button {
-            padding: 6px 15px;
-            margin: 5px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-        }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; z-index: 1000; }
+        .modal-box { background: #fff; padding: 20px; border-radius: 8px; text-align: center; width: 280px; }
+        .modal-box input { width: 85%; padding: 8px; margin: 10px 0; font-size: 16px; border: 1px solid #ccc; border-radius: 4px; }
+        .modal-box button { padding: 8px 15px; margin: 5px; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: bold; }
         .btn-submit { background: #28a745; color: white; }
         .btn-cancel { background: #dc3545; color: white; }
 
         @media print {
-            .controls, .action-cell, .add-row-btn, .del-btn, .modal-overlay, .size-controls {
-                display: none !important;
-            }
-            body {
-                background: #fff;
-                padding: 0;
-            }
-            .container {
-                box-shadow: none;
-                padding: 10mm;
-                border: 2px dotted #555 !important;
-            }
+            .controls-wrapper, .action-cell, .add-row-btn, .del-btn, .modal-overlay { display: none !important; }
+            body { background: #fff; padding: 0; }
+            #receipt-wrapper { transform: scale(1) !important; margin: 0; }
+            .container { box-shadow: none; padding: 10mm; border: 2px dotted #555 !important; }
         }
     </style>
-        </head>
-        <body class="font-solaiman">
-          <div class="controls">
-            <button onclick="openPasswordModal()">🔐 এডিট মোড চালু করুন</button>
-            <button class="save-btn" onclick="saveChanges()">💾 সেভ করুন</button>
-            <!-- ফন্ট পরিবর্তনের ড্রপডাউন বাটন -->
-            <div class="font-selector-box">
-              <select id="fontSelector" onchange="changeGlobalFont(this.value)">
-                <option value="font-solaiman">সলাইমানলিপি (SolaimanLipi)</option>
-                <option value="font-nikosh">নিকোষ (Nikosh)</option>
-                <option value="font-kalpurush">কালপুরুষ (Kalpurush)</option>
-                <option value="font-siyam">সিয়াম রূপালী (Siyam Rupali)</option>
-                <option value="font-anek">অনেক বাংলা (Anek Bangla)</option>
-                <option value="font-SolaimanLipiClassic">ক্লাসিক বাংলা (Tiro Bangla)</option>
-                <option value="font-noto-serif">নোটো সেরিফ বাংলা (Noto Serif)</option>
-                <option value="font-hind">হিন্দ সিলিগুড়ি (Hind Siliguri)</option>
-                <option value="font-baloo">বালু দা ২ (Baloo Da 2)</option>
-                <option value="font-mina">মিনা (Mina)</option>
-                <option value="font-adorsho">আদর্শ লিপি (AdorshoLipi)</option>
-                <option value="font-mukti">মুক্তি ফন্ট (Mukti)</option>
-                <option value="font-sutonnymj">সুতর্নিক এমজে (SutonnyMJ)</option>
-              </select>
+</head>
+<body class="font-solaiman">
+
+<!-- কন্ট্রোল প্যানেল -->
+<div class="controls-wrapper">
+    <div class="ctrl-group">
+        <button class="btn-custom btn-green" onclick="openPasswordModal()">🔓 এডিট মোড</button>
+        <button class="btn-custom btn-blue" onclick="saveChanges()">💾 সেভ করুন</button>
+        <select id="fontSelector" class="custom-select" onchange="changeGlobalFont(this.value)">
+            <option value="font-solaiman">সলাইমানলিপি</option>
+            <option value="font-nikosh">নিকোষ</option>
+            <option value="font-kalpurush">কালপুরুষ</option>
+            <option value="font-siyam">সিয়াম রূপালী</option>
+            <option value="font-anek">অনেক বাংলা</option>
+            <option value="font-SolaimanLipiClassic">ক্লাসিক বাংলা</option>
+            <option value="font-noto-serif">নোটো সেরিফ</option>
+            <option value="font-hind">হিন্দ সিলিগুড়ি</option>
+            <option value="font-baloo">বালু দা ২</option>
+            <option value="font-mina">মিনা</option>
+            <option value="font-adorsho">আদর্শ লিপি</option>
+            <option value="font-mukti">মুক্তি ফন্ট</option>
+            <option value="font-sutonnymj">সুতর্নিক এমজে</option>
+        </select>
+    </div>
+    
+    <div class="ctrl-group tools-dark-bg">
+        <span class="tool-label">সাইজ:</span>
+        <button type="button" class="btn-tool" onclick="adjustFontSize(1)">➕</button>
+        <button type="button" class="btn-tool" onclick="adjustFontSize(-1)">➖</button>
+        
+        <span class="tool-label" style="margin-left: 10px;">জুম:</span>
+        <button type="button" class="btn-tool" onclick="adjustGlobalZoomText(0.25)">➕</button>
+        <button type="button" class="btn-tool" onclick="adjustGlobalZoomText(-0.25)">➖</button>
+        
+        <button type="button" class="btn-tool" style="margin-left: 10px;" onclick="formatText('bold')"><b>B</b></button>
+        <button type="button" class="btn-tool" style="margin-left: 5px;" onclick="formatText('underline')"><u>U</u></button>
+        
+        <button type="button" class="btn-tool" style="margin-left: 5px;" onclick="document.execCommand('undo', false, null)">↶</button>
+        <button type="button" class="btn-tool" onclick="document.execCommand('redo', false, null)">↷</button>
+    </div>
+
+    <div class="ctrl-group">
+        <button class="btn-custom btn-red" onclick="resetData()">🔄 রিসেট</button>
+        <button class="btn-custom btn-green" onclick="window.print()">🖨 প্রিন্ট / ডাউনলোড</button>
+    </div>
+</div>
+
+<div class="modal-overlay" id="passwordModal">
+    <div class="modal-box">
+        <h4>অ্যাডমিন পাসওয়ার্ড দিন</h4>
+        <input type="password" id="adminPasswordInput" placeholder="পাসওয়ার্ড">
+        <br>
+        <button class="btn-submit" onclick="verifyPassword()">প্রবেশ</button>
+        <button class="btn-cancel" onclick="closePasswordModal()">বাতিল</button>
+    </div>
+</div>
+
+<div id="receipt-wrapper">
+    <div class="container" id="receipt-container">
+        <div class="top-header">
+            <div class="editable-text">
+                বাংলাদেশ ফরম নং ১০৭৭<br>
+                (সংশোধিত)
             </div>
-            <!-- সাইজ ছোট-বড় করার বাটন -->
-            <div class="size-controls">
-              <span style="color: white; font-size: 12px; margin-right: 2px;">সাইজ:</span>
-              <button type="button" onclick="adjustFontSize(1)" title="বড় করুন">➕</button>
-              <button type="button" onclick="adjustFontSize(-1)" title="ছোট করুন">➖</button>
+            <div style="text-align: right;" class="editable-text">
+                (পরিশিষ্ট: ৩৮)<br>
+                ক্রমিক নং <span>৮৯৬৭২৬048635</span>
             </div>
-            <button class="reset-btn" onclick="resetData()">🔄 রিসেট</button>
-            <button onclick="window.print()">🖨️ প্রিন্ট / ডাউনলোড</button>
-          </div>
-          <!-- পাসওয়ার্ড ইনপুট পপআপ উইন্ডো -->
-          <div class="modal-overlay" id="passwordModal">
-            <div class="modal-box">
-              <h4>অ্যাডমিন পাসওয়ার্ড দিন</h4>
-              <input type="password" id="adminPasswordInput" placeholder="পাসওয়ার্ড দিন">
-                <br>
-                  <button class="btn-submit" onclick="verifyPassword()">প্রবেশ করুন</button>
-                  <button class="btn-cancel" onclick="closePasswordModal()">বাতিল</button>
-                </div>
-              </div>
-              <div class="container" id="receipt-container">
-                <div class="top-header">
-                  <div class="editable-text">
-                    বাংলাদেশ ফরম নং ১০৭৭<br>
-                    (সংশোধিত)
-                  </div>
-                  <div style="text-align: right;" class="editable-text">
-                    (পরিশিষ্ট: ৩৮)<br>
-                    ক্রমিক নং <span>৮৯৬৭২৬০৪৬৮৯৯</span>
-                  </div>
-                </div>
-                <div class="receipt-main-title">
-                  <h3 class="editable-text">ভূমি উন্নয়ন কর পরিশোধ রসিদ</h3>
-                  <p class="editable-text">(অনুচ্ছেদ ৩৯২ দ্রষ্টব্য)</p>
-                </div>
-                <div class="info-section">
-                  <div class="info-row office-row">
-                    <span class="info-label editable-text">সিটি কর্পোরেশন/ পৌর/ ইউনিয়ন ভূমি অফিসের নাম:</span>
-                    <span class="info-value office-value editable-text" oninput="autoSaveData()">রানীশিমুল ইউনিয়ন ভূমি অফিস</span>
-                  </div>
-                  <div class="info-row">
-                    <span class="info-label editable-text">মৌজার নাম ও জে. এল. নং:</span>
-                    <span class="info-value mouza-value editable-text" oninput="autoSaveData()">লয়খা হাসনখিলা-২৬</span>
-                    <span class="info-label upazila-label editable-text">উপজেলা/থানা:</span>
-                    <span class="info-value upazila-value editable-text" oninput="autoSaveData()">নকলা</span>
-                    <span class="info-label district-label editable-text">জেলা:</span>
-                    <span class="info-value district-value editable-text" oninput="autoSaveData()">শেরপুর</span>
-                  </div>
-                  <div class="info-row">
-                    <span class="info-label editable-text">২ নং রেজিস্টার অনুযায়ী হোল্ডিং নম্বর:</span>
-                    <span class="info-value holding-value editable-text" oninput="autoSaveData()">৫২০</span>
-                  </div>
-                  <div class="info-row">
-                    <span class="info-label editable-text">খতিয়ান নং:</span>
-                    <span class="info-value khatian-value editable-text" oninput="autoSaveData()">৫২০</span>
-                  </div>
-                </div>
-                <div class="section-title editable-text">মালিকের বিবরণ</div>
-                <div class="two-tables">
-                  <div>
+        </div>
+
+        <div class="receipt-main-title">
+            <h3 class="editable-text">ভূমি উন্নয়ন কর পরিশোধ রসিদ</h3>
+            <p class="editable-text">(অনুচ্ছেদ ৩৯২ দ্রষ্টব্য)</p>
+        </div>
+
+        <div class="info-section">
+            <!-- অফিসের নামের সামনের অতিরিক্ত কমা বা ফাঁকা অংশ পরিষ্কার করা হয়েছে -->
+            <div class="info-row">
+                <span class="info-label editable-text">সিটি কর্পোরেশন/ পৌর/ ইউনিয়ন ভূমি অফিসের নাম:</span>
+                <span class="info-value office-value editable-text" oninput="autoSaveData()">নকলা সদর ইউনিয়ন ভূমি অফিস</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label editable-text">মৌজার নাম ও জে. এল. নং:</span>
+                <span class="info-value mouza-value editable-text" oninput="autoSaveData()">ধুকুধুকুরিয়া-১৮</span>
+                <span class="info-label upazila-label editable-text">উপজেলা/থানা:</span>
+                <span class="info-value upazila-value editable-text" oninput="autoSaveData()">নকলা</span>
+                <span class="info-label district-label editable-text">জেলা:</span>
+                <span class="info-value district-value editable-text" oninput="autoSaveData()">শেরপুর</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label editable-text">২ নং রেজিস্টার অনুযায়ী হোল্ডিং নম্বর:</span>
+                <span class="info-value holding-value editable-text" oninput="autoSaveData()">১২০৮</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label editable-text">খতিয়ান নং:</span>
+                <span class="info-value khatian-value editable-text" oninput="autoSaveData()">১২০৮</span>
+            </div>
+        </div>
+
+        <div class="section-title editable-text">মালিকের বিবরণ</div>
+        <div id="owner-section-wrapper">
+            <div class="two-tables" id="owner-tables-box">
+                <div id="owner-box-1">
                     <table>
-                      <thead>
-                        <tr>
-                          <th class="editable-text">ক্রমঃ</th>
-                          <th class="editable-text">মালিকের নাম</th>
-                          <th class="editable-text">মালিকের অংশ</th>
-                          <th class="action-cell">অ্যাকশন</th>
-                        </tr>
-                      </thead>
-                      <tbody id="owner-tbody-1">
-                        <tr>
-                          <td class="editable-text">১</td>
-                          <td class="editable-text">ইমান আলী</td>
-                          <td class="editable-text">০.২০৫</td>
-                          <td class="action-cell">
-                            <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="editable-text">২</td>
-                          <td class="editable-text">ফুল মামুদ</td>
-                          <td class="editable-text">০.৩৩৩</td>
-                          <td class="action-cell">
-                            <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="editable-text">৩</td>
-                          <td class="editable-text">হযরত আলী</td>
-                          <td class="editable-text">০.২১৭</td>
-                          <td class="action-cell">
-                            <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                          </td>
-                        </tr>
-                      </tbody>
+                        <thead>
+                            <tr>
+                                <th class="editable-text">ক্রমঃ</th>
+                                <th class="editable-text">মালিকের নাম</th>
+                                <th class="editable-text">মালিকের অংশ</th>
+                                <th class="action-cell">অ্যাকশন</th>
+                            </tr>
+                        </thead>
+                        <tbody id="owner-tbody-1">
+                            <tr>
+                                <td class="editable-text">১</td>
+                                <td class="editable-text">মোঃ রফিকুল ইসলাম</td>
+                                <td class="editable-text">১</td>
+                                <td class="action-cell"><button class="del-btn" onclick="deleteRow(this)">ডিলিট</button></td>
+                            </tr>
+                        </tbody>
                     </table>
-                  </div>
-                  <div>
+                </div>
+                <div id="owner-box-2">
                     <table>
-                      <thead>
-                        <tr>
-                          <th class="editable-text">ক্রমঃ</th>
-                          <th class="editable-text">মালিকের নাম</th>
-                          <th class="editable-text">মালিকের অংশ</th>
-                          <th class="action-cell">অ্যাকশন</th>
-                        </tr>
-                      </thead>
-                      <tbody id="owner-tbody-2">
-                        <tr>
-                          <td class="editable-text">৪</td>
-                          <td class="editable-text">তহুরন নেছা</td>
-                          <td class="editable-text">০.০৭৫</td>
-                          <td class="action-cell">
-                            <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="editable-text">৫</td>
-                          <td class="editable-text">আমিনা খাতুন</td>
-                          <td class="editable-text">০.০৭৫</td>
-                          <td class="action-cell">
-                            <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="editable-text">৬</td>
-                          <td class="editable-text">ছাহেদ আলী</td>
-                          <td class="editable-text">০.০৯৫</td>
-                          <td class="action-cell">
-                            <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                          </td>
-                        </tr>
-                      </tbody>
+                        <thead>
+                            <tr>
+                                <th class="editable-text">ক্রমঃ</th>
+                                <th class="editable-text">মালিকের নাম</th>
+                                <th class="editable-text">মালিকের অংশ</th>
+                                <th class="action-cell">অ্যাকশন</th>
+                            </tr>
+                        </thead>
+                        <tbody id="owner-tbody-2"></tbody>
                     </table>
-                  </div>
                 </div>
-                <button class="add-row-btn" onclick="addOwnerRow()">＋ মালিক যোগ করুন</button>
-                <div class="section-title editable-text">জমির বিবরণ</div>
-                <div class="two-tables">
-                  <div>
+            </div>
+        </div>
+        <button class="add-row-btn" onclick="addOwnerRow()">＋ মালিক যোগ করুন</button>
+
+        <div class="section-title editable-text">জমির বিবরণ</div>
+        <div id="land-section-wrapper">
+            <div class="two-tables" id="land-tables-box">
+                <div id="land-box-1">
                     <table>
-                      <thead>
-                        <tr>
-                          <th class="editable-text">ক্রমঃ</th>
-                          <th class="editable-text">দাগ নং</th>
-                          <th class="editable-text">জমির শ্রেণি</th>
-                          <th class="editable-text">জমির পরিমাণ (শতাংশ)</th>
-                          <th class="action-cell">অ্যাকশন</th>
-                        </tr>
-                      </thead>
-                      <tbody id="land-tbody-1">
-                        <tr>
-                          <td class="editable-text">১</td>
-                          <td class="editable-text">১১৯৮</td>
-                          <td class="editable-text">কান্দা (কৃষি)</td>
-                          <td class="editable-text">১৫</td>
-                          <td class="action-cell">
-                            <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="editable-text">২</td>
-                          <td class="editable-text">১৮৫৫</td>
-                          <td class="editable-text">নামা (কৃষি)</td>
-                          <td class="editable-text">১৩</td>
-                          <td class="action-cell">
-                            <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="editable-text">৩</td>
-                          <td class="editable-text">১৮৬২</td>
-                          <td class="editable-text">বাড়ী (আবাসিক)</td>
-                          <td class="editable-text">৪</td>
-                          <td class="action-cell">
-                            <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="editable-text">৪</td>
-                          <td class="editable-text">১৮৬৩</td>
-                          <td class="editable-text">বাড়ী (আবাসিক)</td>
-                          <td class="editable-text">১৬</td>
-                          <td class="action-cell">
-                            <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="editable-text">৫</td>
-                          <td class="editable-text">১৮৬৫</td>
-                          <td class="editable-text">কান্দা (কৃষি)</td>
-                          <td class="editable-text">
-                          </td>
-                          <td class="action-cell">
-                            <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                          </td>
-                        </tr>
-                      </tbody>
+                        <thead>
+                            <tr>
+                                <th class="editable-text">ক্রমঃ</th>
+                                <th class="editable-text">দাগ নং</th>
+                                <th class="editable-text">জমির শ্রেণি</th>
+                                <th class="editable-text">জমির পরিমাণ (শতাংশ)</th>
+                                <th class="action-cell">অ্যাকশন</th>
+                            </tr>
+                        </thead>
+                        <tbody id="land-tbody-1">
+                            <tr>
+                                <td class="editable-text">১</td>
+                                <td class="editable-text">১০৬৯</td>
+                                <td class="editable-text">কান্দা (আবাসিক)</td>
+                                <td class="editable-text">৩</td>
+                                <td class="action-cell"><button class="del-btn" onclick="deleteRow(this)">ডিলিট</button></td>
+                            </tr>
+                        </tbody>
                     </table>
-                  </div>
-                  <div>
+                </div>
+                <div id="land-box-2">
                     <table>
-                      <thead>
-                        <tr>
-                          <th class="editable-text">ক্রমঃ</th>
-                          <th class="editable-text">দাগ নং</th>
-                          <th class="editable-text">জমির শ্রেণি</th>
-                          <th class="editable-text">জমির পরিমাণ (শতাংশ)</th>
-                          <th class="action-cell">অ্যাকশন</th>
-                        </tr>
-                      </thead>
-                      <tbody id="land-tbody-2">
-                        <tr>
-                          <td class="editable-text">৬</td>
-                          <td class="editable-text">১৮৬৮</td>
-                          <td class="editable-text">কান্দা (কৃষি)</td>
-                          <td class="editable-text">১৫</td>
-                          <td class="action-cell">
-                            <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="editable-text">৭</td>
-                          <td class="editable-text">১৮৭১</td>
-                          <td class="editable-text">পতিত (কৃষি)</td>
-                          <td class="editable-text">২</td>
-                          <td class="action-cell">
-                            <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="editable-text">৮</td>
-                          <td class="editable-text">১৮৮১</td>
-                          <td class="editable-text">নামা (কৃষি)</td>
-                          <td class="editable-text">১৮</td>
-                          <td class="action-cell">
-                            <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="editable-text">৯</td>
-                          <td class="editable-text">১৮৮৬</td>
-                          <td class="editable-text">নামা (কৃষি)</td>
-                          <td class="editable-text">৮</td>
-                          <td class="action-cell">
-                            <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="editable-text">১০</td>
-                          <td class="editable-text">১৮৭৫</td>
-                          <td class="editable-text">নামা (কৃষি)</td>
-                          <td class="editable-text">৮</td>
-                          <td class="action-cell">
-                            <button class="del-btn" onclick="deleteRow(this)">ডিলিট</button>
-                          </td>
-                        </tr>
-                      </tbody>
+                        <thead>
+                            <tr>
+                                <th class="editable-text">ক্রমঃ</th>
+                                <th class="editable-text">দাগ নং</th>
+                                <th class="editable-text">জমির শ্রেণি</th>
+                                <th class="editable-text">জমির পরিমাণ (শতাংশ)</th>
+                                <th class="action-cell">অ্যাকশন</th>
+                            </tr>
+                        </thead>
+                        <tbody id="land-tbody-2"></tbody>
                     </table>
-                  </div>
                 </div>
-                <button class="add-row-btn" onclick="addLandRow()">＋ জমির দাগ যোগ করুন</button>
-                <div class="total-land editable-text">
-                  সর্বমোট জমি (শতাংশ) <span oninput="autoSaveData()">১০৬</span>
+            </div>
+        </div>
+        <button class="add-row-btn" onclick="addLandRow()">＋ জমির দাগ যোগ করুন</button>
+
+        <!-- মোট জমির ঘরের মাঝখানে নির্দিষ্ট দাগ (Divider) দেওয়া হয়েছে -->
+        <div style="margin-top: 10px;">
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr>
+                    <td class="editable-text" style="border: 1px dotted #666; width: 50%; text-align: center; font-weight: bold; padding: 5px; border-right: 1.5px solid #000;" oninput="autoSaveData()">সর্বমোট জমি (শতাংশ)</td>
+                    <td class="editable-text" style="border: 1px dotted #666; width: 50%; text-align: left; padding-left: 10px; font-weight: bold; padding: 5px;" oninput="autoSaveData()">৩</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section-title editable-text">আদায়ের বিবরণ</div>
+        <table class="amount-table">
+            <thead>
+                <tr>
+                    <th class="editable-text">তিন বৎসরের ঊর্ধ্বের বকেয়া</th>
+                    <th class="editable-text">গত তিন বৎসরের বকেয়া</th>
+                    <th class="editable-text">বকেয়ার জরিমানা ও ক্ষতিপূরণ</th>
+                    <th class="editable-text">হাল দাবি</th>
+                    <th class="editable-text">মোট দাবি</th>
+                    <th class="editable-text">মোট আদায়</th>
+                    <th class="editable-text">মোট বকেয়া</th>
+                    <th class="editable-text">মন্তব্য</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="editable-text" oninput="autoSaveData()">০</td>
+                    <td class="editable-text" oninput="autoSaveData()">৩৮৭</td>
+                    <td class="editable-text" oninput="autoSaveData()">৫০</td>
+                    <td class="editable-text" oninput="autoSaveData()">১২০</td>
+                    <td class="editable-text" oninput="autoSaveData()">৫৫৭</td>
+                    <td class="editable-text" oninput="autoSaveData()">৫৫৭</td>
+                    <td class="editable-text" oninput="autoSaveData()">০</td>
+                    <td class="editable-text" oninput="autoSaveData()"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="amount-words editable-text">
+            সর্বমোট (কথায়): <span oninput="autoSaveData()">পাঁচ শত সাতান্ন টাকা মাত্র।</span>
+        </div>
+
+        <div class="footer-note">
+            <div class="editable-text">
+                নোট: সর্বশেষ কর পরিশোধের সাল <span oninput="autoSaveData()">2026-2027</span> (অর্থবছর)<br>
+                চালান নং: <span oninput="autoSaveData()"></span><br>
+                <div style="display: flex; align-items: flex-end; margin-top: 6px;">
+                    <div style="margin-bottom: 2px;">তারিখ :&nbsp;</div>
+                    <div style="text-align: center; line-height: 1.3;">
+                        <div class="editable-text" style="border-bottom: 1px solid #000; padding: 0 10px; margin-bottom: 2px;" oninput="autoSaveData()">২১ আশ্বিন ১৪৩৩</div>
+                        <div class="editable-text" style="padding: 0 10px; font-size: 13px;" oninput="autoSaveData()">০৬ অক্টোবর, ২০২৬</div>
+                    </div>
                 </div>
-                <div class="section-title editable-text">আদায়ের বিবরণ</div>
-                <table class="amount-table">
-                  <thead>
-                    <tr>
-                      <th class="editable-text">তিন বৎসরের ঊর্ধ্বের বকেয়া</th>
-                      <th class="editable-text">গত তিন বৎসরের বকেয়া</th>
-                      <th class="editable-text">বকেয়ার জরিমানা ও ক্ষতিপূরণ</th>
-                      <th class="editable-text">হাল দাবি</th>
-                      <th class="editable-text">মোট দাবি</th>
-                      <th class="editable-text">মোট আদায়</th>
-                      <th class="editable-text">মোট বকেয়া</th>
-                      <th class="editable-text">মন্তব্য</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td class="editable-text" oninput="autoSaveData()">
-                      </td>
-                      <td class="editable-text" oninput="autoSaveData()">
-                      </td>
-                      <td class="editable-text" oninput="autoSaveData()">
-                      </td>
-                      <td class="editable-text" oninput="autoSaveData()">২০০</td>
-                      <td class="editable-text" oninput="autoSaveData()">২০০</td>
-                      <td class="editable-text" oninput="autoSaveData()">২০০</td>
-                      <td class="editable-text" oninput="autoSaveData()">
-                      </td>
-                      <td class="editable-text" oninput="autoSaveData()">
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                <div class="amount-words editable-text">
-                  সর্বমোট (কথায়): <span oninput="autoSaveData()">দুই শত টাকা মাত্র।</span>
-                </div>
-                <div class="footer-note">
-                  <div class="editable-text">
-                    নোট: সর্বশেষ কর পরিশোধের সাল <span oninput="autoSaveData()">2026-2027</span> (অর্থবছর)<br>
-                    চালান নং: <span oninput="autoSaveData()">
-                  </span>
-                  <br>
-                    তারিখ : <span oninput="autoSaveData()">১ ভাদ্র ১৪৩৩ / ১৬ আগস্ট, ২০২৬</span>
-                  </div>
-                  <div style="text-align: right;" class="editable-text">
-                    এই দাখিলা ইলেক্ট্রনিকভাবে তৈরি করা হয়েছে,<br>কোন স্বাক্ষর প্রয়োজন নেই।
-                  </div>
-                </div>
-              </div>
-              <div class="page-number">১/১</div>
-              <script>
+            </div>
+            <div style="text-align: right;" class="editable-text">
+                এই দাখিলা ইলেক্ট্রনিকভাবে তৈরি করা হয়েছে,<br>কোন স্বাক্ষর প্রয়োজন নেই।
+            </div>
+        </div>
+        <div class="page-number">১/১</div>
+    </div>
+</div>
+
+<script>
     const ADMIN_PASSWORD = "1234";
-    const STORAGE_KEY = 'landTaxReceipt_autosave_v14';
-    const EDIT_STATE_KEY = 'landTaxReceipt_edit_active_v14';
+    const STORAGE_KEY = 'landTaxReceipt_v12_strict_fix';
+    const EDIT_STATE_KEY = 'landTaxReceipt_edit_active_v12';
 
     function loadSavedData() {
         let savedHTML = localStorage.getItem(STORAGE_KEY);
@@ -682,9 +421,8 @@
         if (savedFont) {
             let isEdit = localStorage.getItem(EDIT_STATE_KEY) === 'true';
             document.body.className = savedFont;
-            if (isEdit) {
-                document.body.classList.add('edit-mode');
-            }
+            document.getElementById('fontSelector').value = savedFont;
+            if (isEdit) { document.body.classList.add('edit-mode'); }
         }
 
         let isEditActive = localStorage.getItem(EDIT_STATE_KEY);
@@ -692,6 +430,7 @@
             document.body.classList.add('edit-mode');
             enableAllEditableElements();
         }
+        adjustTableLayouts();
     }
 
     function enableAllEditableElements() {
@@ -699,7 +438,7 @@
         let editables = container.querySelectorAll('.editable-text, td, th');
         editables.forEach(el => {
             el.setAttribute('contenteditable', 'true');
-            el.oninput = autoSaveData;
+            el.oninput = function() { autoSaveData(); adjustTableLayouts(); };
         });
     }
 
@@ -711,9 +450,7 @@
     function changeGlobalFont(fontClass) {
         let isEditMode = document.body.classList.contains('edit-mode');
         document.body.className = fontClass;
-        if (isEditMode) {
-            document.body.classList.add('edit-mode');
-        }
+        if (isEditMode) { document.body.classList.add('edit-mode'); }
         localStorage.setItem('receipt_selected_font', fontClass);
     }
 
@@ -722,9 +459,7 @@
         document.getElementById('adminPasswordInput').value = '';
     }
 
-    function closePasswordModal() {
-        document.getElementById('passwordModal').style.display = 'none';
-    }
+    function closePasswordModal() { document.getElementById('passwordModal').style.display = 'none'; }
 
     function verifyPassword() {
         let pass = document.getElementById('adminPasswordInput').value;
@@ -739,87 +474,111 @@
         }
     }
 
+    function formatText(command) {
+        document.execCommand(command, false, null);
+        autoSaveData();
+    }
+
     function adjustFontSize(delta) {
         let selection = window.getSelection();
         if (!selection.rangeCount || selection.isCollapsed) {
             alert("দয়া করে প্রথমে মাউস দিয়ে যে লেখাটি ছোট বা বড় করতে চান সেটি সিলেক্ট বা মার্ক করুন।");
             return;
         }
-
         let range = selection.getRangeAt(0);
         let span = document.createElement("span");
-        
         let parentElement = range.commonAncestorContainer.parentElement;
         let currentSize = window.getComputedStyle(parentElement).fontSize;
         let newSize = parseFloat(currentSize) + delta;
-        
-        if (newSize < 8) newSize = 8;
+        if (newSize < 10) newSize = 10;
         if (newSize > 40) newSize = 40;
 
         span.style.fontSize = newSize + "px";
         span.appendChild(range.extractContents());
         range.insertNode(span);
-        
         selection.removeAllRanges();
         autoSaveData();
+    }
+
+    function adjustGlobalZoomText(delta) {
+        let elements = document.querySelectorAll('#receipt-container, #receipt-container *');
+        elements.forEach(el => {
+            let style = window.getComputedStyle(el, null).getPropertyValue('font-size');
+            let fontSize = parseFloat(style);
+            el.style.fontSize = (fontSize + delta) + 'px';
+        });
+        autoSaveData();
+    }
+
+    function adjustTableLayouts() {
+        let ownerBox1 = document.getElementById('owner-box-1');
+        let ownerBox2 = document.getElementById('owner-box-2');
+        let ownerTbody2 = document.getElementById('owner-tbody-2');
+        if (ownerTbody2 && ownerBox2 && ownerBox1) {
+            if (ownerTbody2.children.length === 0) {
+                ownerBox2.style.display = 'none'; ownerBox1.style.flex = "0 0 100%";
+            } else {
+                ownerBox2.style.display = 'block'; ownerBox1.style.flex = "1";
+            }
+        }
+
+        let landBox1 = document.getElementById('land-box-1');
+        let landBox2 = document.getElementById('land-box-2');
+        let landTbody2 = document.getElementById('land-tbody-2');
+        if (landTbody2 && landBox2 && landBox1) {
+            if (landTbody2.children.length === 0) {
+                landBox2.style.display = 'none'; landBox1.style.flex = "0 0 100%";
+            } else {
+                landBox2.style.display = 'block'; landBox1.style.flex = "1";
+            }
+        }
     }
 
     function addOwnerRow() {
         let tbody1 = document.getElementById('owner-tbody-1');
         let tbody2 = document.getElementById('owner-tbody-2');
         let targetTbody = (tbody1.children.length <= tbody2.children.length) ? tbody1 : tbody2;
-
         let newRow = document.createElement('tr');
         newRow.innerHTML = `
             <td class="editable-text" contenteditable="true" oninput="autoSaveData()">-</td>
             <td class="editable-text" contenteditable="true" oninput="autoSaveData()">নাম লিখুন</td>
-            <td class="editable-text" contenteditable="true" oninput="autoSaveData()">০.০০০</td>
-            <td class="action-cell"><button class="del-btn" onclick="deleteRow(this); autoSaveData();">ডিলিট</button></td>
+            <td class="editable-text" contenteditable="true" oninput="autoSaveData()">১</td>
+            <td class="action-cell"><button class="del-btn" onclick="deleteRow(this)">ডিলিট</button></td>
         `;
         targetTbody.appendChild(newRow);
-        enableAllEditableElements();
-        autoSaveData();
+        enableAllEditableElements(); autoSaveData(); adjustTableLayouts();
     }
 
     function addLandRow() {
         let tbody1 = document.getElementById('land-tbody-1');
         let tbody2 = document.getElementById('land-tbody-2');
         let targetTbody = (tbody1.children.length <= tbody2.children.length) ? tbody1 : tbody2;
-
         let newRow = document.createElement('tr');
         newRow.innerHTML = `
             <td class="editable-text" contenteditable="true" oninput="autoSaveData()">-</td>
             <td class="editable-text" contenteditable="true" oninput="autoSaveData()">দাগ নং</td>
             <td class="editable-text" contenteditable="true" oninput="autoSaveData()">শ্রেণি</td>
             <td class="editable-text" contenteditable="true" oninput="autoSaveData()">০</td>
-            <td class="action-cell"><button class="del-btn" onclick="deleteRow(this); autoSaveData();">ডিলিট</button></td>
+            <td class="action-cell"><button class="del-btn" onclick="deleteRow(this)">ডিলিট</button></td>
         `;
         targetTbody.appendChild(newRow);
-        enableAllEditableElements();
-        autoSaveData();
+        enableAllEditableElements(); autoSaveData(); adjustTableLayouts();
     }
 
-    function deleteRow(btn) {
-        let row = btn.closest('tr');
-        row.remove();
-        autoSaveData();
-    }
+    function deleteRow(btn) { btn.closest('tr').remove(); autoSaveData(); adjustTableLayouts(); }
 
     function saveChanges() {
         let container = document.getElementById('receipt-container');
-        let editables = container.querySelectorAll('.editable-text, td, th');
-        editables.forEach(el => el.setAttribute('contenteditable', 'false'));
-
+        container.querySelectorAll('.editable-text, td, th').forEach(el => el.setAttribute('contenteditable', 'false'));
         localStorage.setItem(STORAGE_KEY, container.innerHTML);
         localStorage.setItem(EDIT_STATE_KEY, 'false');
-        
         document.body.classList.remove('edit-mode');
         alert("সফলভাবে সেভ করা হয়েছে!");
         loadSavedData();
     }
 
     function resetData() {
-        if (confirm("আপনি কি নিশ্চিতভাবে সব ডেটা রিসেট করতে চান? আগের সব পরিবর্তন মুছে মূল রূপে ফিরে যাবে।")) {
+        if (confirm("আপনি কি নিশ্চিতভাবে সব ডেটা রিসেট করতে চান?")) {
             localStorage.removeItem(STORAGE_KEY);
             localStorage.removeItem(EDIT_STATE_KEY);
             localStorage.removeItem('receipt_selected_font');
@@ -827,9 +586,8 @@
         }
     }
 
-    window.onload = function() { 
-        loadSavedData(); 
-    };
+    window.onload = function() { loadSavedData(); };
 </script>
-            </body>
-          </html>
+
+</body>
+</html>
