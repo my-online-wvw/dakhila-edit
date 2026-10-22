@@ -20,14 +20,15 @@
         body.font-mukti { font-family: 'Mukti', 'Kalpurush', sans-serif !important; }
         body.font-sutonnymj { font-family: 'SutonnyMJ', 'SolaimanLipi', sans-serif !important; }
 
+        * { box-sizing: border-box; }
+
         body {
             font-family: 'SolaimanLipi', Arial, sans-serif;
             background-color: #333;
             margin: 0;
-            padding: 20px;
+            padding: 20px 10px;
         }
 
-        /* --- কন্ট্রোল প্যানেল --- */
         .controls-wrapper {
             background: #4a4a4a;
             padding: 15px 20px;
@@ -39,9 +40,8 @@
             justify-content: space-between;
             align-items: center;
             width: 100%;
-            max-width: 1100px;
+            max-width: 210mm;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            box-sizing: border-box;
             gap: 15px;
         }
         .ctrl-group {
@@ -82,26 +82,28 @@
             border: none; outline: none; font-weight: bold; cursor: pointer;
         }
 
-        /* --- রসিদ কন্টেইনার --- */
         #receipt-wrapper {
-            transition: transform 0.2s ease-in-out;
             margin: 0 auto;
             width: 210mm;
+            max-width: 100%;
         }
+
         .container {
             width: 210mm;
-            min-height: 297mm;
+            min-height: 290mm;
             background: #fff;
             padding: 7mm 8mm 10mm;
             box-sizing: border-box;
             position: relative;
-            border: 2px dotted #555;
+            border: 2px dotted #555 !important;
             border-radius: 10px;
             font-size: 14px; 
         }
+
         body.edit-mode [contenteditable="true"] {
             outline: 1px dashed #007bff; background-color: #f9f9f9; cursor: text;
         }
+
         .top-header { display: flex; justify-content: space-between; font-size: 15px; line-height: 1.4; }
         .receipt-main-title { text-align: center; margin: 10px 0 15px 0; }
         .receipt-main-title h3 { margin: 2px 0; font-size: 18px; font-weight: bold; }
@@ -128,17 +130,66 @@
         .two-tables { display: flex; gap: 7px; width: 100%; }
         .two-tables > div { flex: 1; }
         table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-bottom: 0px; }
-        table, th, td { border: 1px dotted #666; }
+        table, th, td { border: 1px dotted #666 !important; }
         th, td { padding: 4px 5px; text-align: center; }
         th { background-color: #fff; font-weight: bold; }
         
-        .amount-table { border: 1px solid #b5b5b5; margin-top: 5px; }
-        .amount-table th, .amount-table td { border: 1px solid #b5b5b5; background-color: #fafafa; }
+        .amount-table { border: 1px solid #b5b5b5 !important; margin-top: 5px; }
+        .amount-table th, .amount-table td { border: 1px solid #b5b5b5 !important; background-color: #fafafa; }
         .amount-words { font-size: 14px; margin: 10px 0; font-weight: bold; border-bottom: 1px dotted #000; padding-bottom: 3px; width: 100%; }
         .footer-note { font-size: 13px; margin-top: 12px; line-height: 1.5; display: flex; justify-content: space-between; align-items: flex-end; }
         .page-number { position: absolute; left: 4mm; right: 4mm; bottom: 2mm; text-align: right; border-top: 1px dotted #666; padding-top: 2px; font-size: 13px; }
 
-        /* অ্যাকশন বাটন */
+        .img-wrapper-box {
+            position: absolute;
+            display: inline-block;
+            touch-action: none;
+            user-select: none;
+            z-index: 99;
+            border: 1px dashed transparent;
+        }
+
+        body.edit-mode .img-wrapper-box {
+            border: 1px dashed #007bff;
+            background: rgba(0, 123, 255, 0.05);
+        }
+
+        .img-wrapper-box img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .img-controls {
+            display: none;
+            position: absolute;
+            top: -34px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #222;
+            padding: 2px 6px;
+            border-radius: 4px;
+            gap: 4px;
+            white-space: nowrap;
+            z-index: 100;
+        }
+
+        body.edit-mode .img-wrapper-box .img-controls {
+            display: flex;
+        }
+
+        .img-btn {
+            background: #444;
+            color: #fff;
+            border: none;
+            padding: 2px 6px;
+            font-size: 11px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .img-btn-del { background: #dc3545; }
+
         .action-cell { display: none; }
         body.edit-mode .action-cell { display: table-cell; }
         .add-row-btn {
@@ -156,19 +207,21 @@
         .btn-cancel { background: #dc3545; color: white; }
 
         @media print {
-            .controls-wrapper, .action-cell, .add-row-btn, .del-btn, .modal-overlay { display: none !important; }
-            body { background: #fff; padding: 0; }
-            #receipt-wrapper { transform: scale(1) !important; margin: 0; }
-            .container { box-shadow: none; padding: 10mm; border: 2px dotted #555 !important; }
+            .controls-wrapper, .action-cell, .add-row-btn, .del-btn, .modal-overlay, .img-controls { display: none !important; }
+            body { background: #fff; padding: 0; margin: 0; }
+            #receipt-wrapper { transform: scale(1) !important; margin: 0; width: 210mm !important; }
+            .container { box-shadow: none; padding: 10mm; border: 2px dotted #555 !important; min-height: 290mm !important; }
+            .img-wrapper-box { border: none !important; background: transparent !important; }
         }
     </style>
   </head>
   <body class="font-solaiman">
-    <!-- কন্ট্রোল প্যানেল -->
     <div class="controls-wrapper">
       <div class="ctrl-group">
         <button class="btn-custom btn-green" onclick="openPasswordModal()">🔓 এডিট মোড</button>
         <button class="btn-custom btn-blue" onclick="saveChanges()">💾 সেভ করুন</button>
+        <button class="btn-custom btn-green" onclick="document.getElementById('imageLoader').click()">📷 ছবি যোগ করুন</button>
+        <input type="file" id="imageLoader" accept="image/*" style="display: none;" onchange="handleImage(event)">
         <select id="fontSelector" class="custom-select" onchange="changeGlobalFont(this.value)">
           <option value="font-solaiman">সলাইমানলিপি</option>
           <option value="font-nikosh">নিকোষ</option>
@@ -216,7 +269,7 @@
       </div>
     </div>
     <div id="receipt-wrapper">
-      <div class="container" id="receipt-container">
+      <div class="container" id="receipt-container" style="border: 2px dotted #555;">
         <div class="top-header">
           <div class="editable-text">
             বাংলাদেশ ফরম নং ১০৭৭<br>
@@ -379,9 +432,6 @@
         <div class="amount-words editable-text">
           সর্বমোট (কথায়): <span oninput="autoSaveData()">পাঁচ শত সাতান্ন টাকা মাত্র।</span>
         </div>
-        <!-- বামপাশ থেকে ডানপাশ পর্যন্ত ডট লাইন যুক্ত করা হয়েছে -->
-        <div style="border-bottom: 1px dotted #000; margin: 10px 0; width: 100%;">
-        </div>
         <div class="footer-note">
           <div class="editable-text">
             নোট: সর্বশেষ কর পরিশোধের সাল <span oninput="autoSaveData()">2026-2027</span> (অর্থবছর)<br>
@@ -405,13 +455,14 @@
   </div>
   <script>
     const ADMIN_PASSWORD = "1234";
-    const STORAGE_KEY = 'landTaxReceipt_v12_strict_fix';
-    const EDIT_STATE_KEY = 'landTaxReceipt_edit_active_v12';
+    const STORAGE_KEY = 'landTaxReceipt_v21_percent_fix';
+    const EDIT_STATE_KEY = 'landTaxReceipt_edit_active_v21';
 
     function loadSavedData() {
         let savedHTML = localStorage.getItem(STORAGE_KEY);
         if (savedHTML) {
             document.getElementById('receipt-container').innerHTML = savedHTML;
+            rebindAllImages();
         }
 
         let savedFont = localStorage.getItem('receipt_selected_font');
@@ -443,7 +494,6 @@
         const enMonths = ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];
         const englishLine = toBn(String(day).padStart(2, '0')) + ' ' + enMonths[m - 1] + ', ' + toBn(y);
 
-        // বাংলা মাস শুরু (গ্রেগরিয়ান মাস, দিন) — বাংলাদেশ সংশোধিত পঞ্জিকা
         const bnMonths = [
             ['বৈশাখ', 4, 14], ['জ্যৈষ্ঠ', 5, 15], ['আষাঢ়', 6, 15], ['শ্রাবণ', 7, 16],
             ['ভাদ্র', 8, 16], ['আশ্বিন', 9, 16], ['কার্তিক', 10, 16], ['অগ্রহায়ণ', 11, 15],
@@ -604,6 +654,142 @@
     }
 
     function deleteRow(btn) { btn.closest('tr').remove(); autoSaveData(); adjustTableLayouts(); }
+
+    function handleImage(e) {
+        if (!e.target.files || !e.target.files[0]) return;
+        let reader = new FileReader();
+        reader.onload = function(event) {
+            let wrapper = document.createElement('div');
+            wrapper.className = 'img-wrapper-box';
+            wrapper.style.left = '45%';
+            wrapper.style.top = '70%';
+            wrapper.style.width = '120px';
+            wrapper.style.height = '100px';
+
+            wrapper.innerHTML = `
+                <div class="img-controls">
+                    <button class="img-btn" onclick="resizeImgWidth(this, 15)">↔ চওড়া</button>
+                    <button class="img-btn" onclick="resizeImgHeight(this, 15)">↕ লম্বা</button>
+                    <button class="img-btn" onclick="resizeImgScale(this, 15)">➕ বড়</button>
+                    <button class="img-btn" onclick="resizeImgScale(this, -15)">➖ ছোট</button>
+                    <button class="img-btn img-btn-del" onclick="deleteImgWrapper(this)">❌</button>
+                </div>
+                <img src="${event.target.result}" alt="uploaded-img">
+            `;
+
+            document.getElementById('receipt-container').appendChild(wrapper);
+            makeElementDraggable(wrapper);
+            autoSaveData();
+        }
+        reader.readAsDataURL(e.target.files[0]);
+        e.target.value = '';
+    }
+
+    function resizeImgWidth(btn, delta) {
+        let wrapper = btn.closest('.img-wrapper-box');
+        let currentW = wrapper.offsetWidth;
+        wrapper.style.width = Math.max(30, currentW + delta) + 'px';
+        autoSaveData();
+    }
+
+    function resizeImgHeight(btn, delta) {
+        let wrapper = btn.closest('.img-wrapper-box');
+        let currentH = wrapper.offsetHeight;
+        wrapper.style.height = Math.max(30, currentH + delta) + 'px';
+        autoSaveData();
+    }
+
+    function resizeImgScale(btn, delta) {
+        let wrapper = btn.closest('.img-wrapper-box');
+        let currentW = wrapper.offsetWidth;
+        let currentH = wrapper.offsetHeight;
+        wrapper.style.width = Math.max(30, currentW + delta) + 'px';
+        wrapper.style.height = Math.max(30, currentH + delta) + 'px';
+        autoSaveData();
+    }
+
+    function deleteImgWrapper(btn) {
+        btn.closest('.img-wrapper-box').remove();
+        autoSaveData();
+    }
+
+    function makeElementDraggable(elmnt) {
+        let container = document.getElementById('receipt-container');
+        let startX = 0, startY = 0, initialLeft = 0, initialTop = 0;
+
+        elmnt.onmousedown = dragMouseDown;
+        elmnt.ontouchstart = dragTouchStart;
+
+        function dragMouseDown(e) {
+            if (!document.body.classList.contains('edit-mode')) return;
+            if (e.target.classList.contains('img-btn')) return;
+            e.preventDefault();
+            startX = e.clientX;
+            startY = e.clientY;
+            initialLeft = elmnt.offsetLeft;
+            initialTop = elmnt.offsetTop;
+            document.onmouseup = closeDragElement;
+            document.onmousemove = elementDrag;
+        }
+
+        function elementDrag(e) {
+            e.preventDefault();
+            let dx = e.clientX - startX;
+            let dy = e.clientY - startY;
+            let newLeft = initialLeft + dx;
+            let newTop = initialTop + dy;
+
+            // শতাংশে পজিশন সেট যাতে কন্টেইনার রি-সাইজ বা সেভ হলে পজিশন না লড়ে
+            let leftPct = (newLeft / container.offsetWidth) * 100;
+            let topPct = (newTop / container.offsetHeight) * 100;
+
+            elmnt.style.left = leftPct + "%";
+            elmnt.style.top = topPct + "%";
+        }
+
+        function dragTouchStart(e) {
+            if (!document.body.classList.contains('edit-mode')) return;
+            if (e.target.classList.contains('img-btn')) return;
+            let touch = e.touches[0];
+            startX = touch.clientX;
+            startY = touch.clientY;
+            initialLeft = elmnt.offsetLeft;
+            initialTop = elmnt.offsetTop;
+            document.ontouchend = closeTouchDrag;
+            document.ontouchmove = touchDrag;
+        }
+
+        function touchDrag(e) {
+            let touch = e.touches[0];
+            let dx = touch.clientX - startX;
+            let dy = touch.clientY - startY;
+            let newLeft = initialLeft + dx;
+            let newTop = initialTop + dy;
+
+            let leftPct = (newLeft / container.offsetWidth) * 100;
+            let topPct = (newTop / container.offsetHeight) * 100;
+
+            elmnt.style.left = leftPct + "%";
+            elmnt.style.top = topPct + "%";
+        }
+
+        function closeDragElement() {
+            document.onmouseup = null;
+            document.onmousemove = null;
+            autoSaveData();
+        }
+
+        function closeTouchDrag() {
+            document.ontouchend = null;
+            document.ontouchmove = null;
+            autoSaveData();
+        }
+    }
+
+    function rebindAllImages() {
+        let wrappers = document.querySelectorAll('#receipt-container .img-wrapper-box');
+        wrappers.forEach(w => makeElementDraggable(w));
+    }
 
     function saveChanges() {
         let container = document.getElementById('receipt-container');
